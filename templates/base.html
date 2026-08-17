@@ -1,21 +1,47 @@
-<!-- hexlet_django_blog/templates/base.html -->
+{% load static %}
+{% load tailwind_cli %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <title>{% block title %}T E S T{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Task Manager{% endblock %}</title>
+    
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo.png' %}">
+    
+    {% tailwind_css %}
 </head>
-<body>
-<div id="sidebar">
-    {% block sidebar %}
-        <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/articles/">Статьи</a></li>
-        </ul>
-    {% endblock %}
-</div>
-<div id="content">
-    {% block content %}{% endblock %}
-</div>
+<body class="flex flex-col min-h-screen bg-white text-slate-800">
+
+
+    <nav class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center shadow">
+        
+
+        <div class="flex items-center space-x-6">
+            <a href="/" class="flex items-center space-x-2 text-yellow-100 font-bold text-lg">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-8 w-auto rounded">
+                <span>Менеджер задач</span>
+            </a>
+            <a href="/users" class="hover:text-slate-200">Пользователи</a>
+        </div>
+
+        <div class="flex items-center space-x-6">
+            <a href="/login" class="hover:text-slate-200">Вход</a>
+            <a href="/register" class="hover:text-slate-200">Регистрация</a>
+        </div>
+        
+    </nav>
+
+
+    <main class="flex-grow container mx-auto px-6 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+
+    <footer class="border-t border-slate-200 py-4 text-center">
+        <a href="https://ru.hexlet.io" target="_blank" class="text-indigo-600 hover:underline">Hexlet</a>
+    </footer>
+
 </body>
 </html>

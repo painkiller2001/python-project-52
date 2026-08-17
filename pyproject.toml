@@ -6,9 +6,13 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "bs4>=0.0.2",
+    "dj-database-url>=3.1.2",
     "django>=6.1",
+    "django-tailwind-cli>=4.7.0",
     "gunicorn>=26.0.0",
     "make>=0.1.6.post2",
+    "psycopg2-binary>=2.9.12",
     "python-dotenv>=1.2.2",
     "ruff>=0.16.3",
+    "whitenoise>=6.12.0",
 ]
