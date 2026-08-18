@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load tailwind_cli %}
+
+{% block content %}
+
+    <h2>Регистрация</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <label class="block mt-3">
+            Имя:
+            <input type="text" name="name" value=""
+                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
+        </label>
+
+        <label class="block mt-3">
+            Фамилия:
+            <input type="text" name="surname" value=""
+                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
+        </label>
+
+        <label class="block mt-3">
+            Имя пользователя:
+            <input type="text" name="nickname" value=""
+                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
+        </label>
+
+        <label class="block mt-3">
+            Пароль:
+            <input type="password" name="password" value=""
+                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
+        </label>
+
+        <label class="block mt-3">
+            Подтверждение пароля:
+            <input type="password" name="password_confirm" value=""
+                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
+        </label>
+
+        <button type="submit"
+                class="w-full mt-3 py-2 bg-indigo-600 text-white rounded hover:underline">
+            Зарегистрироваться
+        </button>
+    </form>
+
+{% endblock %}
