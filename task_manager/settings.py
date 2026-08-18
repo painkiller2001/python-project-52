@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_tailwind_cli',
     'task_manager',
+    'task_manager.user',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'assets',
 ]
+
+
+AUTH_USER_MODEL = 'user.User'
