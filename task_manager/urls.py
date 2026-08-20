@@ -22,6 +22,6 @@ from task_manager.user.views import LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
-    path("user/", include("task_manager.user.urls")),
+    path("users/", include("task_manager.user.urls"), name='users'),
     path("login/", LoginView.as_view(), name='login'),
 ]
