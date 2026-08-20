@@ -6,3 +6,5 @@ class User(AbstractUser):
     pass
 
 
+class Login():
+    pass
