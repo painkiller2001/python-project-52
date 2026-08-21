@@ -62,7 +62,7 @@ class UpdateView(View):
         form = UserForm(instance=user)
         return render(
             request,
-            "users.html",
+            "user/user_update.html",
             context={
                 'form': form,
                 'user': user
@@ -79,7 +79,7 @@ class UpdateView(View):
             return redirect('users')
         return render(
             request,
-            "users.html",
+            "user/user_update.html",
             context={
                 'form': form,
                 'user': user
