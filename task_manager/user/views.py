@@ -89,7 +89,30 @@ class UpdateView(View):
 
 class DeleteView(View):
     def get(self, request, *args, **kwargs):
-        ...
+        user_id = kwargs.get('id')
+        user = User.objects.get(id=user_id)
+        form = UserForm(instance=user)
+        return render(
+            request,
+            "user/delete_confirmation.html",
+            context={
+                'form': form,
+                'user': user
+            }
+        )
 
     def post(self, request, *args, **kwargs):
-        ...
+        user_id = kwargs.get('id')
+        user = User.objects.get(id=user_id)
+        form = UserForm(instance=user)
+        if user:
+            user.delete()
+            return redirect('users')
+        return render(
+            request,
+            "user/delete_confirmation.html",
+            context={
+                'form': form,
+                'user': user
+            }
+        )
