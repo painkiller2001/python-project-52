@@ -3,10 +3,14 @@ from django.views import View
 from django.views.generic import TemplateView
 from task_manager.user.models import User
 from task_manager.user.forms import UserForm
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
 # Create your views here.
 
 
 class UserView(View):
+    
     def get(self, request, *args, **kwargs):
         users = User.objects.all()
         return render(
@@ -19,6 +23,7 @@ class UserView(View):
         
 
 class CreateView(View):
+    
     def get(self, request, *args, **kwargs):
         form = UserForm()
         return render(
@@ -33,7 +38,10 @@ class CreateView(View):
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Пользователь успешно зарегистрирован')
             return redirect('login')
+        else:
+            messages.warning(request, 'уже существует')
         return render(
             request,
             "user/create.html",
@@ -43,19 +51,37 @@ class CreateView(View):
         )
 
     
+# class LoginView(View):
+    
+#     def get(self, request, *args, **kwargs):
+#         return render(
+#             request,
+#             "user/login.html",
+#             context={
+#                 "login": ...,
+#             },
+#         )
 
-class LoginView(View):
+
+class CustomLogoutView(LoginRequiredMixin, View):
+    
     def get(self, request, *args, **kwargs):
         return render(
             request,
-            "user/login.html",
+            "user/logout_confirmation.html",
             context={
-                "login": ...,
-            },
+            }
         )
 
+    def post(self, request, *args, **kwargs):
 
-class UpdateView(View):
+        logout(request)
+        messages.success(request, 'Вы разлогинены')
+        return redirect('index')
+
+
+class UpdateView(LoginRequiredMixin, View):
+    
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
@@ -69,13 +95,13 @@ class UpdateView(View):
             }
         )
 
-
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
         form = UserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Пользователь успешно изменен')
             return redirect('users')
         return render(
             request,
@@ -87,7 +113,8 @@ class UpdateView(View):
         )
 
 
-class DeleteView(View):
+class DeleteView(LoginRequiredMixin, View):
+    
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
@@ -104,15 +131,14 @@ class DeleteView(View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
-        form = UserForm(instance=user)
         if user:
             user.delete()
+            messages.success(request, 'Пользователь успешно удален')
             return redirect('users')
         return render(
             request,
             "user/delete_confirmation.html",
             context={
-                'form': form,
                 'user': user
             }
         )

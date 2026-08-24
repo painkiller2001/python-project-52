@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from task_manager.user.views import CreateView, LoginView, UserView, UpdateView, DeleteView
+from task_manager.user.views import CreateView, UserView, UpdateView, DeleteView
 
 urlpatterns = [
     path('', UserView.as_view(), name='users'),

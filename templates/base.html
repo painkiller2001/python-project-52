@@ -12,6 +12,13 @@
     
     {% tailwind_css %}
 </head>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 <body class="flex flex-col min-h-screen bg-white text-slate-800">
 
 
@@ -25,11 +32,19 @@
             </a>
             <a href="{% url 'users' %}" class="hover:text-slate-200">Пользователи</a>
         </div>
+        <p> {% if user.is_authenticated %}
+                {{ user.username }}</p>
+                <div class="flex items-center space-x-6">
+                    <a href="{% url 'logout' %}" class="hover:text-slate-200">Выход</a>
+                    <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
+                </div>
+            {% else %}
+                <div class="flex items-center space-x-6">
+                    <a href="{% url 'login' %}" class="hover:text-slate-200">Вход</a>
+                    <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
+                </div>
+            {% endif %}
 
-        <div class="flex items-center space-x-6">
-            <a href="{% url 'login' %}" class="hover:text-slate-200">Вход</a>
-            <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
-        </div>
         
     </nav>
 
