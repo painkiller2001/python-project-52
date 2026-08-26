@@ -21,9 +21,30 @@
 {% endif %}
 <body class="flex flex-col min-h-screen bg-white text-slate-800">
 
-
+    {% if user.is_authenticated %}
     <nav class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center shadow">
-        
+       
+
+        <div class="flex items-center space-x-6">
+            <a href="/" class="flex items-center space-x-2 text-yellow-100 font-bold text-lg">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-8 w-auto rounded">
+                <span>Менеджер задач</span>
+            </a>
+            <a href="{% url 'users' %}" class="hover:text-slate-200">Пользователи</a>
+            <a href="{% url 'users' %}" class="hover:text-slate-200">Статусы</a>
+            <a href="{% url 'users' %}" class="hover:text-slate-200">Метки</a>
+            <a href="{% url 'users' %}" class="hover:text-slate-200">Задачи</a>
+        </div>
+
+        <p>{{ user.username }}</p>
+        <div class="flex items-center space-x-6">
+            <a href="{% url 'logout' %}" class="hover:text-slate-200">Выход</a>
+            <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
+        </div>
+    </nav>
+    {% else %}
+    <nav class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center shadow">
+       
 
         <div class="flex items-center space-x-6">
             <a href="/" class="flex items-center space-x-2 text-yellow-100 font-bold text-lg">
@@ -32,18 +53,12 @@
             </a>
             <a href="{% url 'users' %}" class="hover:text-slate-200">Пользователи</a>
         </div>
-        <p> {% if user.is_authenticated %}
-                {{ user.username }}</p>
-                <div class="flex items-center space-x-6">
-                    <a href="{% url 'logout' %}" class="hover:text-slate-200">Выход</a>
-                    <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
-                </div>
-            {% else %}
-                <div class="flex items-center space-x-6">
-                    <a href="{% url 'login' %}" class="hover:text-slate-200">Вход</a>
-                    <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
-                </div>
-            {% endif %}
+        
+        <div class="flex items-center space-x-6">
+            <a href="{% url 'login' %}" class="hover:text-slate-200">Вход</a>
+            <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
+        </div>
+    {% endif %}
 
         
     </nav>

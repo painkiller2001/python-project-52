@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_tailwind_cli',
     'task_manager',
     'task_manager.user',
+    'task_manager.status',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,6 @@ AUTH_USER_MODEL = 'user.User'
 
 
 LOGIN_REDIRECT_URL = 'index'
+
+
+LOGIN_URL = 'login'

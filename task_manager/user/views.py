@@ -85,15 +85,21 @@ class UpdateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
-        form = UserForm(instance=user)
-        return render(
-            request,
-            "user/user_update.html",
-            context={
-                'form': form,
-                'user': user
-            }
-        )
+        current_user_id = request.user.id
+
+        if current_user_id == user_id:
+            form = UserForm(instance=user)
+            return render(
+                request,
+                "user/user_update.html",
+                context={
+                    'form': form,
+                    'user': user
+                }
+            )
+        else:
+            messages.error(request, 'У вас нет прав для изменения')
+            return redirect('users')
 
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
@@ -118,15 +124,21 @@ class DeleteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
-        form = UserForm(instance=user)
-        return render(
-            request,
-            "user/delete_confirmation.html",
-            context={
-                'form': form,
-                'user': user
-            }
-        )
+        current_user_id = request.user.id
+
+        if current_user_id == user_id:
+            form = UserForm(instance=user)
+            return render(
+                request,
+                "user/delete_confirmation.html",
+                context={
+                    'form': form,
+                    'user': user
+                }
+            )
+        else:
+            messages.error(request, 'У вас нет прав для изменения')
+            return redirect('users')
 
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
