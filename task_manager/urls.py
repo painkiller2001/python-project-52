@@ -23,8 +23,9 @@ from task_manager.user.views import CustomLogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view(), name='index'),
-    path("users/", include("task_manager.user.urls"), name='users'),
     path("login/", LoginView.as_view(template_name='user/login.html'), name='login'),
     path("logout/", CustomLogoutView.as_view(), name='logout'),
+    path("users/", include("task_manager.user.urls"), name='users'),
     path("statuses/", include("task_manager.status.urls"), name='statuses'),
+    path("tasks/", include("task_manager.task.urls"), name='tasks'),
 ]

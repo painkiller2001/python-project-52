@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 # Create your views here.
 
 
-class UserView(View):
+class UsersView(View):
     
     def get(self, request, *args, **kwargs):
         users = User.objects.all()

@@ -3,9 +3,10 @@ from django.views import View
 from task_manager.status.models import Status
 from task_manager.status.forms import StatusForm
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-class StatusesView(View):
+class StatusesView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         statuses = Status.objects.all()
@@ -18,7 +19,7 @@ class StatusesView(View):
         )
 
 
-class StatusCreateView(View):
+class StatusCreateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = StatusForm()
@@ -49,7 +50,7 @@ class StatusCreateView(View):
         )
 
 
-class StatusUpdateView(View):
+class StatusUpdateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('id')
@@ -57,7 +58,7 @@ class StatusUpdateView(View):
         form = StatusForm(instance=status)
         return render(
             request,
-            'status/create.html',
+            'status/status_update.html',
             context={
                 'status': status,
                 'form': form 
@@ -70,12 +71,13 @@ class StatusUpdateView(View):
         form = StatusForm(request.POST, instance=status)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Статус успешно изменен')
             return redirect(
                 'statuses'
             )
         return render(
             request,
-            'status/create.html',
+            'status/status_update.html',
             context={
                 'status': status,
                 'form': form
@@ -83,7 +85,7 @@ class StatusUpdateView(View):
         )   
 
 
-class StatusDeleteView(View):
+class StatusDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('id')
