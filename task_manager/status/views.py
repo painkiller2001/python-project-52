@@ -90,13 +90,11 @@ class StatusDeleteView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('id')
         status = Status.objects.get(id=status_id)
-        form = StatusForm(instance=status)
         return render(
             request,
             'status/delete_confirmation.html',
             context={
-                'status': status,
-                'form': form 
+                'status': status
             }
         )
 

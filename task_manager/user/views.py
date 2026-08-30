@@ -127,12 +127,10 @@ class DeleteView(LoginRequiredMixin, View):
         current_user_id = request.user.id
 
         if current_user_id == user_id:
-            form = UserForm(instance=user)
             return render(
                 request,
                 "user/delete_confirmation.html",
                 context={
-                    'form': form,
                     'user': user
                 }
             )
