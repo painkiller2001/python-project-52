@@ -20,7 +20,7 @@ from task_manager.task.views import TasksView, TaskCreateView, TaskUpdateView, T
 
 urlpatterns = [
     path('', TasksView.as_view(), name='tasks'),
-    path("create/", TaskCreateView.as_view(), name='task_create'),
-    path("<int:id>/update/", TaskUpdateView.as_view(), name='task_update'),
-    path("<int:id>/delete/", TaskDeleteView.as_view(), name='task_delete'),
+    # path("create/", TaskCreateView.as_view(), name='task_create'),
+    # path("<int:id>/update/", TaskUpdateView.as_view(), name='task_update'),
+    # path("<int:id>/delete/", TaskDeleteView.as_view(), name='task_delete'),
 ]

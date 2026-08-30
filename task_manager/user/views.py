@@ -28,7 +28,7 @@ class CreateView(View):
         form = UserForm()
         return render(
             request,
-            "user/create.html",
+            "user/user_create.html",
             context={
                 'form': form
             }
@@ -44,7 +44,7 @@ class CreateView(View):
             messages.warning(request, 'уже существует')
         return render(
             request,
-            "user/create.html",
+            "user/user_create.html",
             context={
                 'form': form
             }

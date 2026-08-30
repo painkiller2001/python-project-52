@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load tailwind_cli %}
+
+{% block title %}Task Manager | Status update{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-2xl font-bold mb-6">Изменение данных статуса</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <label class="block mt-3">
+            Имя:
+            <input type="text" name="name" value="{{ status.name }}"
+                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
+        </label>
+
+        <button type="submit"
+                class="w-full mt-3 py-2 bg-indigo-600 text-white rounded hover:underline">
+            Внести изменения
+        </button>
+
+    </form>
+
+{% endblock %}

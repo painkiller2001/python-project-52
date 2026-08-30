@@ -25,7 +25,7 @@ class StatusCreateView(LoginRequiredMixin, View):
         form = StatusForm()
         return render(
             request,
-            'status/create.html',
+            'status/status_create.html',
             context={
             'form': form
             }
@@ -43,7 +43,7 @@ class StatusCreateView(LoginRequiredMixin, View):
             messages.warning(request, 'уже существует')
         return render(
             request,
-            'status/create.html',
+            'status/status_create.html',
             context={
             'form': form
             }
