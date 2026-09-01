@@ -10,25 +10,25 @@
         {% csrf_token %}
 
         <label class="block mt-3">
-            Новое имя:
+            Имя:
             <input type="text" name="first_name" value="{{ user.first_name }}"
                    class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         </label>
 
         <label class="block mt-3">
-            Новая фамилия:
+            Фамилия:
             <input type="text" name="last_name" value="{{ user.last_name }}"
                    class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         </label>
 
         <label class="block mt-3">
-            Новое имя пользователя:
+            Имя пользователя:
             <input type="text" name="username" value="{{ user.username }}"
                    class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         </label>
 
         <label class="block mt-3">
-            Новый пароль:
+            Пароль:
             <input type="password" name="password1" value=""
                    class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         </label>

@@ -22,7 +22,7 @@ class UsersView(View):
         )
         
 
-class CreateView(View):
+class UserCreateView(View):
     
     def get(self, request, *args, **kwargs):
         form = UserForm()
@@ -80,7 +80,7 @@ class CustomLogoutView(LoginRequiredMixin, View):
         return redirect('index')
 
 
-class UpdateView(LoginRequiredMixin, View):
+class UserUpdateView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
@@ -119,7 +119,7 @@ class UpdateView(LoginRequiredMixin, View):
         )
 
 
-class DeleteView(LoginRequiredMixin, View):
+class UserDeleteView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         user_id = kwargs.get('id')

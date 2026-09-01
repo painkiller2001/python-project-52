@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from task_manager.task.models import Task
 from task_manager.task.forms import TaskForm
+from django.contrib import messages
 
 # Create your views here.
 class TasksView(View):
@@ -10,12 +11,25 @@ class TasksView(View):
         tasks = Task.objects.all()
         return render(
             request,
-            'task/task_create.html',
+            'task/tasks.html',
             context={
                 'tasks': tasks
             }
         )
 
+
+class TaskDetailView(View):
+
+    def get(self, request, *args, **kwargs):
+        task_id = kwargs.get('id')
+        task = get_object_or_404(Task, id=task_id)
+        return render(
+            request,
+            'task/task_detail.html',
+            context={
+                'task': task
+            }
+        )
 
 class TaskCreateView(View): 
 
@@ -30,7 +44,24 @@ class TaskCreateView(View):
         )
 
     def post(self, request, *args, **kwargs):
-        ...
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.author = request.user
+            form.save()
+            messages.success(request, 'Задача успешно создана')
+            return redirect(
+                'tasks'
+            )
+        else:
+            messages.warning(request, 'Задача уже существует')
+        return render(
+            request,
+            'task/task_create.html',
+            context={
+                'form': form
+            }
+        )          
     
 
 class TaskUpdateView(View):
@@ -39,7 +70,7 @@ class TaskUpdateView(View):
         task_id = kwargs.get('id') 
         task = Task.objects.get(id=task_id)
         form = TaskForm(instance=task)
-        return render (
+        return render(
             request,
             'task/task_update.html',
             context={
@@ -49,7 +80,23 @@ class TaskUpdateView(View):
         )
 
     def post(self, request, *args, **kwargs):
-        ...
+        task_id = kwargs.get('id') 
+        task = Task.objects.get(id=task_id)
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Задача успешно обновлена')
+            return redirect(
+                'tasks'
+            )
+        return render (
+            request,
+            'task/task_update.html',
+            context={
+                'task': task,
+                'form': form
+            }
+        )
     
 
 class TaskDeleteView(View):
@@ -66,4 +113,16 @@ class TaskDeleteView(View):
         )
 
     def post(self, request, *args, **kwargs):
-        ...
+        task_id = kwargs.get('id') 
+        task = Task.objects.get(id=task_id)
+        if task:
+            task.delete()
+            messages.success(request, 'Задача успешно удалена')
+            return redirect('tasks')
+        return render(
+            request,
+            'task/delete_confirmation.html',
+            context={
+                'task': task
+            }
+        )

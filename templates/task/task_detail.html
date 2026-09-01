@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load tailwind_cli %}
 
-{% block title %}Task Manager | Status creation{% endblock %}
+{% block title %}Task Manager | Task Details{% endblock %}
 
 {% block content %}
 
-    <h1 class="text-2xl font-bold mb-6">Изменить задачу</h1>
+    <h1 class="text-2xl font-bold mb-6">Просмотр задачи</h1>
     <form method="post" action="">
         {% csrf_token %}
 
