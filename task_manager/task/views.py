@@ -31,6 +31,7 @@ class TaskDetailView(View):
             }
         )
 
+
 class TaskCreateView(View): 
 
     def get(self, request, *args, **kwargs):

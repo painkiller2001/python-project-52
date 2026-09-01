@@ -16,12 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from task_manager.task.views import TasksView, TaskCreateView, TaskUpdateView, TaskDeleteView
+from task_manager.task.views import TasksView, TaskDetailView, TaskCreateView, TaskUpdateView, TaskDeleteView
 
 urlpatterns = [
     path('', TasksView.as_view(), name='tasks'),
     path("create/", TaskCreateView.as_view(), name='task_create'),
-    path("<int:id>/", TaskUpdateView.as_view(), name='task_update'),
+    path("<int:id>/", TaskDetailView.as_view(), name='task_detail'),
     path("<int:id>/update/", TaskUpdateView.as_view(), name='task_update'),
     path("<int:id>/delete/", TaskDeleteView.as_view(), name='task_delete'),
 ]

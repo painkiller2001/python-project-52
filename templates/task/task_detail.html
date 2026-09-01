@@ -1,46 +1,72 @@
 {% extends "base.html" %}
 {% load tailwind_cli %}
 
-{% block title %}Task Manager | Task Details{% endblock %}
+{% block title %}Task Manager | {{ task.name }}{% endblock %}
 
 {% block content %}
-
+<div class="max-w-2xl mx-auto mt-8">
+    
+    <!-- Имя задачи (крупный жирный заголовок над рамкой) -->
     <h1 class="text-2xl font-bold mb-6">Просмотр задачи</h1>
-    <form method="post" action="">
-        {% csrf_token %}
 
-        <label class="block mt-3">
-            Имя:
-            <input type="text" name="name" value="{{ task.name }}"
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+    <h1 class="text-3xl font-extrabold text-slate-900 mb-6">{{ task.name }}</h1>
 
-        <label class="block mt-3">
-            Описание:
-            <input type="text" name="description" value="{{ task.description }}"
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+    <!-- Прямоугольная рамка с деталями задачи -->
+    <div class="border border-slate-200 rounded-lg p-6 bg-white shadow-sm space-y-6">
+        
+        <!-- Секция Описания -->
+        <div>
+            <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Описание</h3>
+            <p class="text-slate-700 text-base leading-relaxed bg-slate-50 p-4 rounded border border-slate-100">
+                {% if task.description %}
+                    {{ task.description }}
+                {% else %}
+                    <span class="text-slate-400 italic">Описание отсутствует</span>
+                {% endif %}
+            </p>
+        </div>
 
-        <label class="block mt-3">
-            Статус:
-            {{ form.status }}
-        </label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
+            
+            <div>
+                <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Автор</span>
+                <span class="text-slate-900 font-medium mt-1 block">{{ task.author.username }}</span>
+            </div>
 
-        <label class="block mt-3">
-            Исполнитель:
-            {{ form.performer }}
-        </label>
+            <div>
+                <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Исполнитель</span>
+                <span class="text-slate-900 font-medium mt-1 block">
+                    {% if task.performer %}
+                        {{ task.performer.username }}
+                    {% else %}
+                        <span class="text-slate-400 italic">Не назначен</span>
+                    {% endif %}
+                </span>
+            </div>
 
-        <!-- <label class="block mt-3">
-            Метки:
-            <input type="text" name="label" value=""
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label> -->
+            <div>
+                <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Статус</span>
+                <!-- Аккуратный бейдж для статуса -->
+                <span class="inline-block mt-2 px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100">
+                    {{ task.status.name }}
+                </span>
+            </div>
 
-        <button type="submit"
-                class="w-full mt-3 py-2 bg-indigo-600 text-white rounded hover:underline">
-            Сохранить
-        </button>
-    </form>
+            <div>
+                <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Дата создания</span>
+                <span class="text-slate-500 text-sm mt-1 block">{{ task.created_at|date:"d-m-Y H:i" }}</span>
+            </div>
+
+                <a href="{% url 'task_update' task.id %}" 
+                    class="text-indigo-600 hover:text-indigo-900 hover:underline">
+                    Изменить
+                </a>
+                <a href="{% url 'task_delete' task.id %}" 
+                    class="text-red-600 hover:text-red-900 hover:underline">
+                    Удалить
+                </a>
+
+        </div>
+
 
 {% endblock %}

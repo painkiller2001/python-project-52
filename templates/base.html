@@ -36,8 +36,8 @@
             <a href="{% url 'tasks' %}" class="hover:text-slate-200">Задачи</a>
         </div>
 
-        <p>{{ user.username }}</p>
-        <div class="flex items-center space-x-6">
+        <span class="text-yellow-100 font-semibold">{{ user.username }}</span>
+        <div class="flex items-center space-x-6">   
             <a href="{% url 'logout' %}" class="hover:text-slate-200">Выход</a>
             <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
         </div>
