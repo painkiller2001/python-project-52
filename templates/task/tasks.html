@@ -16,6 +16,32 @@
 
     <br>
 
+    <form action="/tasks" method="get">
+        <div class="border border-slate-200 rounded-lg p-6 bg-white shadow-sm space-y-6">
+            <label class="block mt-3">
+                Cтатус:
+                    {{ form.status }}
+            </label>
+
+            <label class="block mt-3">
+                Исполнитель:
+                    {{ form.performer }}
+            </label>
+
+            <!-- <label class="block mt-3">
+                Метка:
+                    {{ form.status }}
+            </label> -->
+
+            <button type="submit"
+                    class="w-full mt-3 py-2 bg-indigo-600 text-white rounded hover:underline">
+                Найти
+            </button>
+
+        </div>
+    </form>  
+    <br>
+
     <div class="overflow-x-auto border border-slate-200 rounded-lg shadow-sm">
         <table class="min-w-full divide-y divide-slate-200 bg-white text-sm">
             

@@ -9,5 +9,5 @@ class Task(models.Model):
     status = models.ForeignKey(Status, on_delete=models.PROTECT)
     author = models.ForeignKey(User, related_name='created_tasks', on_delete=models.PROTECT)
     performer = models.ForeignKey(User, related_name='assigned_tasks', null=True, on_delete=models.SET_NULL)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, blank=True, null=True)
     # label = models.ManyToManyField(Label, ...)

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from task_manager.task.models import Task
-from task_manager.task.forms import TaskForm
+from task_manager.task.forms import TaskForm, TaskFilterForm
 from django.contrib import messages
 
 # Create your views here.
@@ -9,11 +9,20 @@ class TasksView(View):
 
     def get(self, request, *args, **kwargs):
         tasks = Task.objects.all()
+        form = TaskFilterForm(request.GET)
+        params = {
+            'status_id': request.GET.get('status'),
+            'performer_id': request.GET.get('performer')
+            # 'label__id': request.GET.get('label')
+        }
+        params = {k: v for k, v in params.items() if v}
+        filtered_tasks = tasks.filter(**params)
         return render(
             request,
             'task/tasks.html',
             context={
-                'tasks': tasks
+                'tasks': filtered_tasks,
+                'form': form
             }
         )
 

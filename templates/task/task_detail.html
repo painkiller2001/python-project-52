@@ -6,15 +6,12 @@
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8">
     
-    <!-- Имя задачи (крупный жирный заголовок над рамкой) -->
     <h1 class="text-2xl font-bold mb-6">Просмотр задачи</h1>
 
     <h1 class="text-3xl font-extrabold text-slate-900 mb-6">{{ task.name }}</h1>
 
-    <!-- Прямоугольная рамка с деталями задачи -->
     <div class="border border-slate-200 rounded-lg p-6 bg-white shadow-sm space-y-6">
         
-        <!-- Секция Описания -->
         <div>
             <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Описание</h3>
             <p class="text-slate-700 text-base leading-relaxed bg-slate-50 p-4 rounded border border-slate-100">
@@ -46,7 +43,7 @@
 
             <div>
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Статус</span>
-                <!-- Аккуратный бейдж для статуса -->
+
                 <span class="inline-block mt-2 px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100">
                     {{ task.status.name }}
                 </span>
