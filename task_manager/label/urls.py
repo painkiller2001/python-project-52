@@ -16,17 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from task_manager import views
-from django.contrib.auth.views import LoginView
-from task_manager.user.views import CustomLogoutView
+from task_manager.label.views import LabelsView, LabelCreateView, LabelUpdateView, LabelDeleteView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view(), name='index'),
-    path("login/", LoginView.as_view(template_name='user/login.html'), name='login'),
-    path("logout/", CustomLogoutView.as_view(), name='logout'),
-    path("users/", include("task_manager.user.urls"), name='users'),
-    path("statuses/", include("task_manager.status.urls"), name='statuses'),
-    path("tasks/", include("task_manager.task.urls"), name='tasks'),
-    path("labels/", include("task_manager.label.urls"), name='labels'),
+    path('', LabelsView.as_view(), name='labels'),
+    path("create/", LabelCreateView.as_view(), name='label_create'),
+    path("<int:id>/update/", LabelUpdateView.as_view(), name='label_update'),
+    path("<int:id>/delete/", LabelDeleteView.as_view(), name='label_delete'),
 ]
