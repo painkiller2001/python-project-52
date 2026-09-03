@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load tailwind_cli %}
+
+{% block title %}Task Manager | Label Delete Confirmation{% endblock %}
+
+{% block content %}
+
+<div class="flex items-center justify-center min-h-[50vh]">
+    <div class="border border-slate-200 rounded-lg p-6 max-w-md w-full text-center shadow">
+        
+        <h2 class="text-xl font-bold mb-4">Удаление метки</h2>
+        <p class="text-slate-600 mb-6">Вы уверены, что хотите удалить {{ label.name }}?</p>
+
+        <form method="post" action="">
+            {% csrf_token %}
+            
+            <button type="submit"
+                    class="w-full py-2 bg-red-600 text-white rounded hover:underline">
+                Да, удалить!
+            </button>
+
+            <a href="{% url 'labels' %}"
+               class="block w-full text-center mt-3 py-2 bg-slate-200 text-slate-800 rounded hover:underline">
+                Нет, отмена!
+            </a>
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}
