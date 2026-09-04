@@ -54,6 +54,11 @@
                 <span class="text-slate-500 text-sm mt-1 block">{{ task.created_at|date:"d-m-Y H:i" }}</span>
             </div>
 
+            <div>
+                <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Метки</span>
+                <span class="text-slate-500 text-sm mt-1 block">{{ task.label.name }}</span>
+            </div>
+
                 <a href="{% url 'task_update' task.id %}" 
                     class="text-indigo-600 hover:text-indigo-900 hover:underline">
                     Изменить

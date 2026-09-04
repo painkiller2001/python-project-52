@@ -51,18 +51,62 @@ class LabelCreateView(View):
 class LabelUpdateView(View):
 
     def get(self, request, *args, **kwargs):
-        ...
+        label_id = kwargs.get('id') 
+        label = Label.objects.get(id=label_id)
+        form = LabelForm(instance=label)
+        return render(
+            request,
+            'label/label_create.html',
+            context={
+                'label': label,
+                'form': form
+            }
+        )
 
 
     def post(self, request, *args, **kwargs):
-        ...
+        label_id = kwargs.get('id')
+        label = Label.objects.get(id=label_id)
+        form = LabelForm(request.POST, instance=label)
+        if form.is_valid():
+            form.save()
+            message = messages.success(request, 'Метка успешно обновлена')
+            return redirect('labels')
+        return render(
+            request,
+            'label/label_update.html',
+            context={
+                'labels': label,
+                'form': form
+            }
+        )   
 
 
 class LabelDeleteView(View):
 
     def get(self, request, *args, **kwargs):
-        ...
+        label_id = kwargs.get('id')
+        label = Label.objects.get(id=label_id)
+        return render(
+            request,
+            'label/delete_confirmation.html',
+            context={
+                'label': label
+            }
+        )
 
 
     def post(self, request, *args, **kwargs):
-        ...
+        label_id = kwargs.get('id')
+        label = Label.objects.get(id=label_id)
+        if label:
+            label.delete()
+            messages.success(request, 'Метка успешно удалена')
+            return redirect('labels')
+        return render(
+            request,
+            "label/delete_confirmation.html",
+            context={
+                'label': label
+            }
+        )
