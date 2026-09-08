@@ -3,9 +3,10 @@ from django.views import View
 from task_manager.label.forms import LabelForm
 from django.contrib import messages
 from task_manager.label.models import Label
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-class LabelsView(View):
+class LabelsView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         labels = Label.objects.all()
@@ -18,7 +19,7 @@ class LabelsView(View):
         )
 
 
-class LabelCreateView(View):
+class LabelCreateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = LabelForm()
@@ -48,7 +49,7 @@ class LabelCreateView(View):
         )
 
 
-class LabelUpdateView(View):
+class LabelUpdateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         label_id = kwargs.get('id') 
@@ -82,7 +83,7 @@ class LabelUpdateView(View):
         )   
 
 
-class LabelDeleteView(View):
+class LabelDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         label_id = kwargs.get('id')

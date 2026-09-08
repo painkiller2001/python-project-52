@@ -3,9 +3,10 @@ from django.views import View
 from task_manager.task.models import Task
 from task_manager.task.forms import TaskForm, TaskFilterForm
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-class TasksView(View):
+class TasksView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         tasks = Task.objects.all()
@@ -27,7 +28,7 @@ class TasksView(View):
         )
 
 
-class TaskDetailView(View):
+class TaskDetailView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         task_id = kwargs.get('id')
@@ -41,7 +42,7 @@ class TaskDetailView(View):
         )
 
 
-class TaskCreateView(View): 
+class TaskCreateView(LoginRequiredMixin, View): 
 
     def get(self, request, *args, **kwargs):
         form = TaskForm()
@@ -74,7 +75,7 @@ class TaskCreateView(View):
         )          
     
 
-class TaskUpdateView(View):
+class TaskUpdateView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         task_id = kwargs.get('id') 
@@ -109,7 +110,7 @@ class TaskUpdateView(View):
         )
     
 
-class TaskDeleteView(View):
+class TaskDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         task_id = kwargs.get('id') 
