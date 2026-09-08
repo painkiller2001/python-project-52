@@ -5,7 +5,7 @@ from task_manager.user.models import User
 from task_manager.user.forms import UserForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login, authenticate
 # Create your views here.
 
 
@@ -38,7 +38,6 @@ class UserCreateView(View):
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Пользователь успешно зарегистрирован')
             return redirect('login')
         else:
             messages.warning(request, 'уже существует')
@@ -62,11 +61,22 @@ class CustomLoginView(View):
         )
 
     def post(self, request, *args, **kwargs):
-        login(request)
-        messages.success(request, 'Вы успешно залогинены')
-        return redirect('index')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            messages.success(request, 'Вы залогинены')
+            return redirect('index')
+        else:
+            messages.warning(request, 'Вы ввели неверный логин и пароль')
+            return render(
+                request, 
+                "user/login.html", 
+                context={'username': username}
+            )
 
-
+        
 class CustomLogoutView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
