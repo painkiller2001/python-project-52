@@ -56,17 +56,29 @@
 
             <div>
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Метки</span>
-                <span class="text-slate-500 text-sm mt-1 block">{{ task.label.name }}</span>
+
+                {% if task.label.all %}
+                    
+                    {% for label in task.label.all %}
+                        <span class="text-slate-500 text-sm mt-1 block">{{ label.name }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span>Метки отсутствуют</span>
+                {% endif %}
+
             </div>
 
+            <div class="flex items-center">
                 <a href="{% url 'task_update' task.id %}" 
-                    class="text-indigo-600 hover:text-indigo-900 hover:underline">
+                class="text-indigo-600 hover:text-indigo-900 hover:underline">
                     Изменить
                 </a>
+                <span class="text-slate-300 mx-1">|</span>
                 <a href="{% url 'task_delete' task.id %}" 
-                    class="text-red-600 hover:text-red-900 hover:underline">
+                class="text-red-600 hover:text-red-900 hover:underline">
                     Удалить
                 </a>
+            </div>
 
         </div>
 

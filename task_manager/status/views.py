@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from task_manager.status.models import Status
 from task_manager.status.forms import StatusForm
@@ -100,15 +100,12 @@ class StatusDeleteView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         status_id = kwargs.get('id')
-        status = Status.objects.get(id=status_id)
-        if status:
-            status.delete()
-            messages.success(request, 'Статус успешно удален')
-            return redirect('statuses')
-        return render(
-            request,
-            "status/delete_confirmation.html",
-            context={
-                'status': status
-            }
-        )
+        status = get_object_or_404(Status.objects.all(), id=status_id)
+
+        if status.tasks.exists(): 
+            messages.error(request, 'Невозможно удалить статус')
+            return redirect('statuses') 
+        
+        status.delete()
+        messages.success(request, 'Статус успешно удален')
+        return redirect('statuses')

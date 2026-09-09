@@ -113,15 +113,21 @@ class TaskUpdateView(LoginRequiredMixin, View):
 class TaskDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        task_id = kwargs.get('id') 
+        task_id = kwargs.get('id')
         task = Task.objects.get(id=task_id)
+        current_user_id = request.user.id
+        if current_user_id != task.author.id:
+            messages.error(request, 'Задачу может удалить только ее автор')
+            return redirect('tasks')
+
         return render (
-            request,
-            'task/delete_confirmation.html',
-            context={
-                'task': task
-            }
-        )
+                request,
+                'task/delete_confirmation.html',
+                context={
+                    'task': task
+                }
+            )
+
 
     def post(self, request, *args, **kwargs):
         task_id = kwargs.get('id') 
