@@ -19,8 +19,6 @@ class TaskForm(forms.ModelForm):
         fields = ['name', 'status', 'performer', 'description', 'label']
 
 
-
-
 class TaskFilterForm(forms.Form):
     status = forms.ModelChoiceField(
         queryset=Status.objects.all(),
@@ -39,4 +37,8 @@ class TaskFilterForm(forms.Form):
         required=False,
         empty_label='Не выбрано',
         label='Метка'
+    )
+    author = forms.BooleanField(
+        required=False,
+        label='Свои задачи'
     )

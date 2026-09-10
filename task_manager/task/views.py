@@ -18,6 +18,7 @@ class TasksView(LoginRequiredMixin, View):
         }
         params = {k: v for k, v in params.items() if v}
         filtered_tasks = tasks.filter(**params)
+        
         return render(
             request,
             'task/tasks.html',
