@@ -8,9 +8,17 @@ from task_manager.label.models import Label
 
 
 class TaskForm(forms.ModelForm):
+    label = forms.ModelMultipleChoiceField(
+        queryset=Label.objects.all(),
+        required=False, 
+        widget=forms.CheckboxSelectMultiple, 
+        label='Метки'
+    ) 
     class Meta:
         model = Task
         fields = ['name', 'status', 'performer', 'description', 'label']
+
+
 
 
 class TaskFilterForm(forms.Form):
