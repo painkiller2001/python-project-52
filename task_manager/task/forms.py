@@ -38,7 +38,7 @@ class TaskFilterForm(forms.Form):
         empty_label='Не выбрано',
         label='Метка'
     )
-    author = forms.BooleanField(
+    own_tasks = forms.BooleanField(
         required=False,
         label='Свои задачи'
     )

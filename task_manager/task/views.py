@@ -18,12 +18,19 @@ class TasksView(LoginRequiredMixin, View):
         }
         params = {k: v for k, v in params.items() if v}
         filtered_tasks = tasks.filter(**params)
+
+        flag = request.GET.get('own_tasks')
+        if flag:
+            own_filtered_tasks = filtered_tasks.filter(author=request.user)
+        else:
+            own_filtered_tasks = filtered_tasks
+
         
         return render(
             request,
             'task/tasks.html',
             context={
-                'tasks': filtered_tasks,
+                'tasks': own_filtered_tasks,
                 'form': form
             }
         )
