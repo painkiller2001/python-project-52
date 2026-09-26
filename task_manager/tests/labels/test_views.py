@@ -5,5 +5,5 @@ def test_labels_view_anonymous(client):
     check_access_anonymous(client, '/labels/')
 
 
-def test_labels_view_logined_user(client, db):
-    check_access_logined_user(client, '/labels/', 'label/labels.html')
+def test_labels_view_logined_user(client, user_creation):
+    check_access_logined_user(client, user_creation, '/labels/', 'label/labels.html')

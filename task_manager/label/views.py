@@ -100,14 +100,11 @@ class LabelDeleteView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         label_id = kwargs.get('id')
         label = Label.objects.get(id=label_id)
-        if label:
-            label.delete()
-            messages.success(request, 'Метка успешно удалена')
-            return redirect('labels')
-        return render(
-            request,
-            "label/delete_confirmation.html",
-            context={
-                'label': label
-            }
-        )
+        if label.tasks.exists(): 
+            messages.error(request, 'Невозможно удалить метку')
+            return redirect('labels') 
+
+        label.delete()
+        messages.success(request, 'Метка успешно удалена')
+        return redirect('labels')
+

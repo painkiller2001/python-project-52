@@ -89,6 +89,11 @@ class TaskUpdateView(LoginRequiredMixin, View):
         task_id = kwargs.get('id') 
         task = Task.objects.get(id=task_id)
         form = TaskForm(instance=task)
+        current_user_id = request.user.id
+        if current_user_id != task.author.id:
+            messages.error(request, 'Задачу может изменить только ее автор')
+            return redirect('tasks')
+
         return render(
             request,
             'task/task_update.html',

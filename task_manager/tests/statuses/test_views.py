@@ -8,14 +8,14 @@ def test_statuses_view_anonymous(client):
     check_access_anonymous(client, '/statuses/')
 
 
-def test_statuses_view_logined_user(client, db):
-    check_access_logined_user(client, '/statuses/', 'status/statuses.html')
+def test_statuses_view_logined_user(client, user_creation):
+    check_access_logined_user(client, user_creation, '/statuses/', 'status/statuses.html')
 
 
 
-def test_status_create(client, db):
-    user = User.objects.create_user(username='test_user', password='12345q!')
-    client.force_login(user)
+def test_status_create(client, user_creation):
+
+    client.force_login(user_creation)
     query_data = {
         'name': 'Completed'
     }
@@ -24,3 +24,33 @@ def test_status_create(client, db):
     assert response.status_code == 302
     assert '/statuses/' in response.url
     assert Status.objects.filter(name='Completed').exists()
+
+
+def test_status_update(client, user_creation, status_creation):
+
+    client.force_login(user_creation)
+    status = status_creation
+    url = f'/statuses/{status.id}/update/'
+    new_query_data = {
+        'name': 'Updated'
+    }
+    response = client.post(url, new_query_data)
+
+    assert response.status_code == 302
+    assert '/statuses/' in response.url
+    assert Status.objects.filter(id=status.id, name='Updated').exists()
+
+
+def test_status_delete(client, user_creation, status_creation):
+
+    client.force_login(user_creation)
+    status = status_creation
+    url = f'/statuses/{status.id}/delete/'
+    new_query_data = {
+        'name': 'Updated'
+    }
+    response = client.post(url, new_query_data)
+
+    assert response.status_code == 302
+    assert '/statuses/' in response.url
+    assert Status.objects.filter(id=status.id, name='Updated').exists()
