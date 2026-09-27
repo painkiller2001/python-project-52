@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
-from django.views import View
-from task_manager.label.forms import LabelForm
 from django.contrib import messages
-from task_manager.label.models import Label
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.views import View
+
+from task_manager.label.forms import LabelForm
+from task_manager.label.models import Label
+
 
 # Create your views here.
 class LabelsView(LoginRequiredMixin, View):
@@ -57,7 +59,7 @@ class LabelUpdateView(LoginRequiredMixin, View):
         form = LabelForm(instance=label)
         return render(
             request,
-            'label/label_create.html',
+            'label/label_update.html',
             context={
                 'label': label,
                 'form': form

@@ -1,7 +1,4 @@
 from task_manager.tests.helpers import check_access_anonymous, check_access_logined_user
-from task_manager.user.models import User
-from task_manager.label.forms import LabelForm
-from task_manager.label.models import Label
 
 
 def test_labels_main_view_anonymous(client):

@@ -1,4 +1,3 @@
-from task_manager.user.models import User
 
 
 def check_access_anonymous(client, url):

@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from django.views import View
-from django.views.generic import TemplateView
-from task_manager.user.models import User
-from task_manager.user.forms import UserForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import logout, login, authenticate
+from django.shortcuts import redirect, render
+from django.views import View
+
+from task_manager.user.forms import UserForm
+from task_manager.user.models import User
+
 # Create your views here.
 
 

@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views import View
-from task_manager.task.models import Task
-from task_manager.task.forms import TaskForm, TaskFilterForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
+
+from task_manager.task.forms import TaskFilterForm, TaskForm
+from task_manager.task.models import Task
+
 
 # Create your views here.
 class TasksView(LoginRequiredMixin, View):
