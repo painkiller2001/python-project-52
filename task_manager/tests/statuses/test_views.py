@@ -46,11 +46,9 @@ def test_status_delete(client, user_creation, status_creation):
     client.force_login(user_creation)
     status = status_creation
     url = f'/statuses/{status.id}/delete/'
-    new_query_data = {
-        'name': 'Updated'
-    }
-    response = client.post(url, new_query_data)
+
+    response = client.post(url)
 
     assert response.status_code == 302
     assert '/statuses/' in response.url
-    assert Status.objects.filter(id=status.id, name='Updated').exists()
+    assert not Status.objects.filter(id=status.id).exists()
