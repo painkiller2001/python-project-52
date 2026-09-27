@@ -4,12 +4,44 @@ from task_manager.status.forms import StatusForm
 from task_manager.status.models import Status
 
 
-def test_statuses_view_anonymous(client):
+def test_statuses_main_view_anonymous(client):
     check_access_anonymous(client, '/statuses/')
 
 
-def test_statuses_view_logined_user(client, user_creation):
+def test_statuses_create_view_anonymous(client):
+    check_access_anonymous(client, '/statuses/create/')
+
+
+def test_statuses_update_view_anonymous(client, status_creation):
+
+    status = status_creation
+    check_access_anonymous(client, f'/statuses/{status.id}/update/')
+
+
+def test_statuses_delete_view_anonymous(client, status_creation):
+
+    status = status_creation
+    check_access_anonymous(client, f'/statuses/{status.id}/delete/')
+
+
+def test_statuses_main_view_logined_user(client, user_creation):
     check_access_logined_user(client, user_creation, '/statuses/', 'status/statuses.html')
+
+
+def test_statuses_create_view_logined_user(client, user_creation):
+    check_access_logined_user(client, user_creation, '/statuses/create/', 'status/status_create.html')
+
+
+def test_statuses_update_view_logined_user(client, user_creation, status_creation):
+
+    status = status_creation
+    check_access_logined_user(client, user_creation, f'/statuses/{status.id}/update/', 'status/status_update.html')
+
+
+def test_statuses_delete_view_logined_user(client, user_creation, status_creation):
+
+    status = status_creation
+    check_access_logined_user(client, user_creation, f'/statuses/{status.id}/delete/', 'status/delete_confirmation.html')
 
 
 
