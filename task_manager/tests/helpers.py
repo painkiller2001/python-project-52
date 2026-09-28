@@ -16,6 +16,8 @@ def check_access_logined_user(client, user, url, template):
     assert response.status_code == 200
     assert template in [t.name for t in response.templates]
 
+    return response
+
 
 # def check_create_get(client, url, user, template):
 

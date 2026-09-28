@@ -3,6 +3,7 @@ import pytest
 from task_manager.label.models import Label
 from task_manager.status.models import Status
 from task_manager.user.models import User
+from task_manager.task.models import Task
 
 
 @pytest.fixture
@@ -11,10 +12,10 @@ def user_creation(db):
     return user
 
 
-# @pytest.fixture
-# def task_creation(db):
-#     task = Task.objects.create(name='test_task')
-#     return task
+@pytest.fixture
+def task_creation(db, user_creation, status_creation):
+    task = Task.objects.create(name='test_task', author=user_creation, status=status_creation)
+    return task
 
 
 @pytest.fixture

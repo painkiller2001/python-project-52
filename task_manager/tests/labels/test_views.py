@@ -22,17 +22,20 @@ def test_labels_delete_view_anonymous(client, label_creation):
 
 
 def test_labels_main_view_logined_user(client, user_creation):
-    check_access_logined_user(client, user_creation, '/labels/', 'label/labels.html')
+    response = check_access_logined_user(client, user_creation, '/labels/', 'label/labels.html')
+    assert 'labels' in response.context
 
 
 def test_labels_create_view_logined_user(client, user_creation):
-    check_access_logined_user(client, user_creation, '/labels/create/', 'label/label_create.html')
+    response = check_access_logined_user(client, user_creation, '/labels/create/', 'label/label_create.html')
+    assert 'form' in response.context
 
 
 def test_labels_update_view_logined_user(client, user_creation, label_creation):
 
     label = label_creation
-    check_access_logined_user(client, user_creation, f'/labels/{label.id}/update/', 'label/label_update.html')
+    response = check_access_logined_user(client, user_creation, f'/labels/{label.id}/update/', 'label/label_update.html')
+    assert response.context['label'] == label
 
 
 def test_labels_delete_view_logined_user(client, user_creation, label_creation):
