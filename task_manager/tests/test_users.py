@@ -12,11 +12,13 @@ def test_users_main_view_anonymous(client, db):
 #     assert 'form' in response.context 
 
 
-def test_users_update_view_anonymous(client):
+def test_users_update_view_anonymous(client, user_creation):
+    user = user_creation
     check_access_anonymous(client, f'/users/{user.id}/update/')
 
 
-def test_users_delete_view_anonymous(client):
+def test_users_delete_view_anonymous(client, user_creation):
+    user = user_creation
     check_access_anonymous(client, f'/users/{user.id}/delete/')
 
 
