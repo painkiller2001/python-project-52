@@ -1,4 +1,5 @@
 from task_manager.tests.helpers import check_access_logined_user, check_access_anonymous
+from task_manager.user.models import User
 
 
 def test_user_main_view_anonymous(client, db):
@@ -44,9 +45,30 @@ def test_user_update_own_profile(client, user_creation):
     current_user = response.wsgi_request.user
     logged_in_user_id = current_user.id
 
-    if user.id == logged_in_user_id:
-        response = check_access_logined_user(client, user_creation, f'/users/{user.id}/update/', 'user/user_update.html')
-        assert response.context['user'] == user
+    response = check_access_logined_user(client, user_creation, f'/users/{user.id}/update/', 'user/user_update.html')
+    assert response.context['user'] == user
+
+
+def test_user_update_another_profile(client, user_creation):
+
+    client.force_login(user_creation)
+    user1 = user_creation
+    user2 = User.objects.create(username='Another_User', password='12345qqQ!')
+    url = f'/users/{user2.id}/update/'
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert '/users/' in response.url
+
+
+
+def test_user_delete_own_profile(client, user_creation):
+    ...
+
+
+def test_user_delete_another_profile(client, user_creation):
+    ...
 
 
 # def test_user_delete_view_logined_user(client, user_creation):
