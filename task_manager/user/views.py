@@ -155,14 +155,10 @@ class UserDeleteView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get('id')
         user = User.objects.get(id=user_id)
-        if user:
+        if user.tasks.exists(): 
+            messages.error(request, 'Невозможно удалить пользователя')
+            return redirect('users')
+        else:
             user.delete()
             messages.success(request, 'Пользователь успешно удален')
             return redirect('users')
-        return render(
-            request,
-            "user/delete_confirmation.html",
-            context={
-                'user': user
-            }
-        )

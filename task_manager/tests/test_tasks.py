@@ -7,3 +7,5 @@ def test_tasks_view_anonymous(client):
 
 def test_tasks_view_logined_user(client, user_creation):
     check_access_logined_user(client, user_creation, '/tasks/', 'task/tasks.html')
+
+
