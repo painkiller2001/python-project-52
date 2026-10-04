@@ -1,7 +1,6 @@
+
 from task_manager.status.models import Status
-from task_manager.task.models import Task
 from task_manager.tests.helpers import check_access_anonymous, check_access_logined_user
-import pytest
 
 
 def test_statuses_main_view_anonymous(client):

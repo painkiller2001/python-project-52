@@ -1,6 +1,6 @@
-from task_manager.tests.helpers import check_access_logined_user, check_access_anonymous
-from task_manager.user.models import User
 from task_manager.task.models import Task
+from task_manager.tests.helpers import check_access_anonymous, check_access_logined_user
+from task_manager.user.models import User
 
 
 def test_user_main_view_anonymous(client, db):
