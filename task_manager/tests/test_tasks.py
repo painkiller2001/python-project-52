@@ -57,32 +57,54 @@ def test_update_own_task(client, user_creation, task_creation):
 
     new_query_data = {
         'name': 'Updated_name',
-        'author': task.author,
-        'performer': task.perfomer,
-        'status': task.status
+        'author': task.author.id,
+        'performer': task.performer.id,
+        'status': task.status.id
     }
 
-    response = client.get(url, new_query_data)
+    response = client.post(url, new_query_data)
 
     assert response.status_code == 302
     assert '/tasks/' in response.url
-    assert not Task.objects.filter(id=task.id, name='Updated_name').exists()
+    assert Task.objects.filter(id=task.id, name='Updated_name').exists()
 
 
-# def test_update_another_task(client, user_creation, task_creation, status_creation):
+def test_update_another_task(client, user_creation, task_creation, status_creation):
 
-#     client.force_login(user_creation)
-#     task = task_creation
-#     user2 = User.objects.create_user(username='Another_User', password='12345qqQ!')
-#     task2 = Task.objects.create(name='test_task2', author=user2, performer=user_creation, status=status_creation)
+    client.force_login(user_creation)
+    task = task_creation
+    user2 = User.objects.create_user(username='Another_User', password='12345qqQ!')
+    task2 = Task.objects.create(name='test_task2', author=user2, performer=user_creation, status=status_creation)
     
-#     url = f'/tasks/{task2.id}/update/'
+    url = f'/tasks/{task2.id}/update/'
 
-#     response = client.get(url, new_query_data)
+    response = client.post(url)
 
-#     assert response.status_code == 302
-#     assert '/tasks/' in response.url
-#     assert Task.objects.filter(id=task2.id).exists()
+    assert response.status_code == 302
+    assert '/tasks/' in response.url
+
+
+def test_task_create(client, user_creation, status_creation):
+    
+    client.force_login(user_creation)
+
+    url = f'/tasks/create/'
+
+    query_data = {
+        'name': 'New_task',
+        'author': user_creation.id,
+        'performer': user_creation.id,
+        'status': status_creation.id
+    }
+
+    response = client.post(url, query_data)
+
+    assert response.status_code == 302
+    assert '/tasks/' in response.url
+    assert Task.objects.filter(name='New_task', 
+                                author=user_creation,
+                                performer=user_creation,
+                                status=status_creation).exists()
 
 
 def test_delete_own_task(client, user_creation, task_creation):
@@ -100,36 +122,6 @@ def test_delete_own_task(client, user_creation, task_creation):
 
 
 def test_delete_another_task(client, user_creation, task_creation, status_creation):
-
-    client.force_login(user_creation)
-    task = task_creation
-    user2 = User.objects.create_user(username='Another_User', password='12345qqQ!')
-    task2 = Task.objects.create(name='test_task2', author=user2, performer=user_creation, status=status_creation)
-    
-    url = f'/tasks/{task2.id}/delete/'
-
-    response = client.post(url)
-
-    assert response.status_code == 302
-    assert '/tasks/' in response.url
-    assert Task.objects.filter(id=task2.id).exists()
-
-
-def test_update_own_task(client, user_creation, task_creation):
-
-    client.force_login(user_creation)
-    task = task_creation
-    
-    url = f'/tasks/{task.id}/delete/'
-
-    response = client.post(url)
-
-    assert response.status_code == 302
-    assert '/tasks/' in response.url
-    assert not Task.objects.filter(id=task.id).exists()
-
-
-def test_update_another_task(client, user_creation, task_creation, status_creation):
 
     client.force_login(user_creation)
     task = task_creation
