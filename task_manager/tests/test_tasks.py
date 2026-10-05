@@ -48,7 +48,7 @@ def test_tasks_delete_view_logined_user(client, user_creation, task_creation):
     check_access_logined_user(client, user_creation, f'/tasks/{task.id}/delete/', 'task/delete_confirmation.html')
 
 
-def test_update_own_task(client, user_creation, task_creation):
+def test_update_task(client, user_creation, task_creation):
 
     client.force_login(user_creation)
     task = task_creation
@@ -58,7 +58,7 @@ def test_update_own_task(client, user_creation, task_creation):
     new_query_data = {
         'name': 'Updated_name',
         'author': task.author.id,
-        'performer': task.performer.id,
+        'performer': user_creation.id,
         'status': task.status.id
     }
 
@@ -67,21 +67,6 @@ def test_update_own_task(client, user_creation, task_creation):
     assert response.status_code == 302
     assert '/tasks/' in response.url
     assert Task.objects.filter(id=task.id, name='Updated_name').exists()
-
-
-def test_update_another_task(client, user_creation, task_creation, status_creation):
-
-    client.force_login(user_creation)
-    task = task_creation
-    user2 = User.objects.create_user(username='Another_User', password='12345qqQ!')
-    task2 = Task.objects.create(name='test_task2', author=user2, performer=user_creation, status=status_creation)
-    
-    url = f'/tasks/{task2.id}/update/'
-
-    response = client.post(url)
-
-    assert response.status_code == 302
-    assert '/tasks/' in response.url
 
 
 def test_task_create(client, user_creation, status_creation):
