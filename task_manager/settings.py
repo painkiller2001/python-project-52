@@ -152,3 +152,16 @@ LOGIN_REDIRECT_URL = 'index'
 
 
 LOGIN_URL = 'login'
+
+
+import os
+import sentry_sdk
+
+SENTRY_DSN = os.getenv('SENTRY_DSN')
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
