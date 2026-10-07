@@ -15,10 +15,23 @@ from task_manager.tests.helpers import check_access_anonymous, check_access_logi
 
 #     ?status=2&performer=&label=
 
-
-# def task_filtered_view_by_performer(client):
     
-#     client.force_login(user_creation)
+def test_task_filtered_view_by_performer(client, user_creation, label_creation, status_creation, task_creation):
+    
+    client.force_login(user_creation)
+
+    another_performer = User.objects.create_user(username='Another_Performer', password='12345qqQ!')
+
+    task = Task.objects.create(name='test_task2', author=user_creation, performer=user_creation, status=status_creation)
+    task2 = Task.objects.create(name='test_task2', author=user_creation, performer=another_performer, status=status_creation)
+
+    url = f'/tasks/?status=&performer={user_creation.id}&label=&own_tasks='
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert task in response.context['tasks']
+    assert task2 not in response.context['tasks']
 
 
 def test_task_filtered_view_by_label(client, user_creation, label_creation, status_creation, task_creation):
