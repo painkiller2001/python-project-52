@@ -1,22 +1,29 @@
 from task_manager.task.models import Task
 from task_manager.user.models import User
 from task_manager.label.models import Label
+from task_manager.status.models import Status
 from task_manager.tests.helpers import check_access_anonymous, check_access_logined_user
 
 
-# def task_filtered_view_by_status(client, user_creation):
+def test_task_filtered_view_by_status(client, user_creation, status_creation, task_creation):
+    
+    client.force_login(user_creation)
 
-#     client.force_login(user_creation)
+    another_status = Status.objects.create(name='Another_Status')
 
-#     url = f'/tasks/'
+    task = task_creation
+    task2 = Task.objects.create(name='test_task2', author=user_creation, status=another_status)
 
-#     task1 = Task.objects.create
-#     task2 = 
+    url = f'/tasks/?status={status_creation.id}&performer=&label=&own_tasks='
 
-#     ?status=2&performer=&label=
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert task in response.context['tasks']
+    assert task2 not in response.context['tasks']
 
     
-def test_task_filtered_view_by_performer(client, user_creation, label_creation, status_creation, task_creation):
+def test_task_filtered_view_by_performer(client, user_creation, status_creation):
     
     client.force_login(user_creation)
 
