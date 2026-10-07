@@ -15,8 +15,7 @@ lint:
 build:
 	./build.sh
 
-setup:
-	install collectstatic migrate
+setup: install collectstatic migrate
 
 render-start:
 	gunicorn task_manager.wsgi
