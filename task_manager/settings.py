@@ -81,7 +81,6 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 import dj_database_url
 
-
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -155,6 +154,7 @@ LOGIN_URL = 'login'
 
 
 import os
+
 import sentry_sdk
 
 SENTRY_DSN = os.getenv('SENTRY_DSN')

@@ -1,8 +1,7 @@
-from task_manager.task.models import Task
-from task_manager.user.models import User
 from task_manager.label.models import Label
 from task_manager.status.models import Status
-from task_manager.tests.helpers import check_access_anonymous, check_access_logined_user
+from task_manager.task.models import Task
+from task_manager.user.models import User
 
 
 def test_task_filtered_view_by_status(client, user_creation, status_creation, task_creation):
@@ -70,7 +69,7 @@ def test_task_filtered_view_own_tasks(client, user_creation, status_creation, ta
     task = task_creation
     task2 = Task.objects.create(name='test_task2', author=another_user, performer=user_creation, status=status_creation)
 
-    url = f'/tasks/?status=&performer=&label=&own_tasks=on'
+    url = '/tasks/?status=&performer=&label=&own_tasks=on'
 
     response = client.get(url)
 

@@ -73,7 +73,7 @@ def test_task_create(client, user_creation, status_creation):
     
     client.force_login(user_creation)
 
-    url = f'/tasks/create/'
+    url = '/tasks/create/'
 
     query_data = {
         'name': 'New_task',
