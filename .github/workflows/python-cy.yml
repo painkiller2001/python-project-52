@@ -29,4 +29,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          .venv/bin/pytest
+          uv pip install pytest-django
+          uv run pytest
