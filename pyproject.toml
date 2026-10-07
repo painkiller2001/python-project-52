@@ -22,5 +22,5 @@ dependencies = [
 DJANGO_SETTINGS_MODULE = "task_manager.settings"
 python_files = ["test_*.py", "*_test.py"]
 
-[tool.ruff]
+[tool.ruff.lint]
 ignore = ["RUF012"]
