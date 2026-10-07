@@ -92,7 +92,6 @@ def test_status_task_connection(client, user_creation, task_creation, status_cre
 
     client.force_login(user_creation)
     status = status_creation
-    task = task_creation
 
     url = f'/statuses/{status.id}/delete/'
 

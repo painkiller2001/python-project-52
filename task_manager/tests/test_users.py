@@ -1,4 +1,3 @@
-from task_manager.task.models import Task
 from task_manager.tests.helpers import check_access_anonymous, check_access_logined_user
 from task_manager.user.models import User
 
@@ -25,7 +24,6 @@ def test_user_delete_view_anonymous(client, user_creation):
 
 
 def test_user_main_view_logined_user(client, user_creation):
-    user = user_creation
     response = check_access_logined_user(client, user_creation, '/users/', 'user/users.html')
     assert 'users' in response.context
 
@@ -43,9 +41,6 @@ def test_user_update_own_profile(client, user_creation):
 
     response = client.get(url)
 
-    current_user = response.wsgi_request.user
-    logged_in_user_id = current_user.id
-
     response = check_access_logined_user(client, user_creation, f'/users/{user.id}/update/', 'user/user_update.html')
     assert response.context['user'] == user
 
@@ -53,7 +48,6 @@ def test_user_update_own_profile(client, user_creation):
 def test_user_update_another_profile(client, user_creation):
 
     client.force_login(user_creation)
-    user1 = user_creation
     user2 = User.objects.create(username='Another_User', password='12345qqQ!')
     url = f'/users/{user2.id}/update/'
 
@@ -119,7 +113,6 @@ def test_user_task_connection(client, user_creation, task_creation, status_creat
 
     client.force_login(user_creation)
     user = user_creation
-    task = Task.objects.create(name='test_task', author=user_creation, performer=user_creation, status=status_creation)
 
     url = f'/users/{user.id}/delete/'
 

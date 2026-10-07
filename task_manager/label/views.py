@@ -38,10 +38,10 @@ class LabelCreateView(LoginRequiredMixin, View):
         form = LabelForm(request.POST)
         if form.is_valid():
             form.save()
-            message = messages.success(request, 'Метка успешно создана')
+            messages.success(request, 'Метка успешно создана')
             return redirect('labels')
         else:
-            message = messages.warning(request, 'Метка уже существует')
+            messages.warning(request, 'Метка уже существует')
         return render(
             request,
             'label/label_create.html',
@@ -73,7 +73,7 @@ class LabelUpdateView(LoginRequiredMixin, View):
         form = LabelForm(request.POST, instance=label)
         if form.is_valid():
             form.save()
-            message = messages.success(request, 'Метка успешно обновлена')
+            messages.success(request, 'Метка успешно обновлена')
             return redirect('labels')
         return render(
             request,

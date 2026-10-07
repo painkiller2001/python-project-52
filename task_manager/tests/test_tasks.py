@@ -109,7 +109,6 @@ def test_delete_own_task(client, user_creation, task_creation):
 def test_delete_another_task(client, user_creation, task_creation, status_creation):
 
     client.force_login(user_creation)
-    task = task_creation
     user2 = User.objects.create_user(username='Another_User', password='12345qqQ!')
     task2 = Task.objects.create(name='test_task2', author=user2, performer=user_creation, status=status_creation)
     
