@@ -14,32 +14,24 @@
             class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         {{ form.first_name.errors }}
 
-        <label class="block mt-3">
-            Фамилия:
-            <input type="text" name="last_name" value=""
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+        <label for="id_last_name" class="block mt-3">Фамилия:</label>
+        <input type="text" id="id_last_name" name="last_name" value=""
+            class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         {{ form.last_name.errors }}
 
-        <label class="block mt-3">
-            Имя пользователя:
-            <input type="text" name="username" value=""
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+        <label for="id_username" class="block mt-3">Имя пользователя:</label>
+        <input type="text" id="id_username" name="username" value=""
+            class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         {{ form.username.errors }}
 
-        <label class="block mt-3">
-            Пароль:
-            <input type="password" name="password1" value=""
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+        <label for="id_password1" class="block mt-3">Пароль:</label>
+        <input type="password" id="id_password1" name="password1" value=""
+            class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         {{ form.password1.errors }}
 
-        <label class="block mt-3">
-            Подтверждение пароля:
-            <input type="password" name="password2" value=""
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+        <label for="id_password2" class="block mt-3">Подтверждение пароля:</label>
+        <input type="password" id="id_password2" name="password2" value=""
+            class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
         {{ form.password2.errors }}
 
         <button type="submit"
