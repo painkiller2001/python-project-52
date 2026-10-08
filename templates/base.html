@@ -12,19 +12,18 @@
     
     {% tailwind_css %}
 </head>
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endif %}
 <body class="flex flex-col min-h-screen bg-white text-slate-800">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div role="alert" class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     {% if user.is_authenticated %}
     <nav class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center shadow">
-       
-
         <div class="flex items-center space-x-6">
             <a href="/" class="flex items-center space-x-2 text-yellow-100 font-bold text-lg">
                 <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-8 w-auto rounded">
@@ -44,8 +43,6 @@
     </nav>
     {% else %}
     <nav class="bg-indigo-900 text-white px-6 py-4 flex justify-between items-center shadow">
-       
-
         <div class="flex items-center space-x-6">
             <a href="/" class="flex items-center space-x-2 text-yellow-100 font-bold text-lg">
                 <img src="{% static 'images/logo.png' %}" alt="Logo" class="h-8 w-auto rounded">
@@ -58,16 +55,12 @@
             <a href="{% url 'login' %}" class="hover:text-slate-200">Вход</a>
             <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
         </div>
-    {% endif %}
-
-        
     </nav>
-
+    {% endif %}
 
     <main class="flex-grow container mx-auto px-6 py-8">
         {% block content %}{% endblock %}
     </main>
-
 
     <footer class="border-t border-slate-200 py-4 text-center">
         <a href="https://ru.hexlet.io" target="_blank" class="text-indigo-600 hover:underline">Hexlet</a>
