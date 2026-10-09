@@ -47,7 +47,7 @@ def test_task_filtered_view_by_label(client, user_creation, label_creation, stat
     another_label = Label.objects.create(name='Test_label')
 
     task = task_creation
-    task.label.add(label_creation)
+    task.labels.add(label_creation)
     task2 = Task.objects.create(name='test_task2', author=user_creation, performer=user_creation, status=status_creation)
     task2.label.add(another_label)
 

@@ -91,7 +91,7 @@ def test_label_task_connection(client, user_creation, task_creation, label_creat
     client.force_login(user_creation)
     label = label_creation
     task = task_creation
-    task.label.add(label)
+    task.labels.add(label)
 
     url = f'/labels/{label.id}/delete/'
 
