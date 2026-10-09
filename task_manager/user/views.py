@@ -77,7 +77,7 @@ class CustomLoginView(View):
             )
 
         
-class CustomLogoutView(LoginRequiredMixin, View):
+class CustomLogoutView(View):
     
     def get(self, request, *args, **kwargs):
         return render(
