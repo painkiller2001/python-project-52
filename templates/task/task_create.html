@@ -18,18 +18,18 @@
                class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
 
         <label class="block mt-3">Статус:</label>
-        <div>{{ form.status }}</div>
+        {{ form.status }}
 
         <label class="block mt-3">Исполнитель:</label>
-        <div>{{ form.performer }}</div>
+        {{ form.performer }}
 
         <label class="block mt-3">Метки:</label>
-        <div>{{ form.label }}</div>
+        {{ form.label }}
 
         <button type="submit"
                 class="w-full mt-3 py-2 bg-indigo-600 text-white rounded hover:underline">
             Создать
-        </button>ы
+        </button>
     </form>
 
 {% endblock %}
