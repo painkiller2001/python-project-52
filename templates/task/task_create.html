@@ -17,13 +17,13 @@
         <input type="text" id="id_description" name="description" value=""
                class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
 
-        <label class="block mt-3">Статус:</label>
+        <label for="id_status" class="block mt-3">Статус:</label>
         {{ form.status }}
 
-        <label class="block mt-3">Исполнитель:</label>
+        <label for="id_performer" class="block mt-3">Исполнитель:</label>
         {{ form.performer }}
 
-        <label class="block mt-3">Метки:</label>
+        <label for="id_label" class="block mt-3">Метки:</label>
         {{ form.label }}
 
         <button type="submit"
