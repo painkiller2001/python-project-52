@@ -9,11 +9,9 @@
     <form method="post" action="">
         {% csrf_token %}
 
-        <label class="block mt-3">
-            Имя:
-            <input type="text" name="name" value="{{ label.name }}"
-                   class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
-        </label>
+        <label for="id_name" class="block mt-3">Имя:</label>
+        <input type="text" id="id_name" name="name" value="{{ label.name }}"
+               class="block w-full border border-slate-200 rounded px-4 py-2 mt-2">
 
         <button type="submit"
                 class="w-full mt-3 py-2 bg-indigo-600 text-white rounded hover:underline">
