@@ -78,14 +78,6 @@ class CustomLoginView(View):
 
         
 class CustomLogoutView(LoginRequiredMixin, View):
-    
-    def get(self, request, *args, **kwargs):
-        return render(
-            request,
-            "user/logout_confirmation.html",
-            context={
-            }
-        )
 
     def post(self, request, *args, **kwargs):
 

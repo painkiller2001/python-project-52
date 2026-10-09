@@ -37,7 +37,10 @@
 
         <span class="text-yellow-100 font-semibold">{{ user.username }}</span>
         <div class="flex items-center space-x-6">   
-            <a href="{% url 'logout' %}" class="hover:text-slate-200">Выход</a>
+            <form method="post" action="{% url 'logout' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="hover:text-slate-200 bg-transparent border-0 p-0 text-inherit cursor-pointer">Выход</button>
+            </form>
             <a href="{% url 'user_create' %}" class="hover:text-slate-200">Регистрация</a>
         </div>
     </nav>
