@@ -91,10 +91,7 @@ class StatusDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         status_id = kwargs.get('id')
-        status = Status.objects.get(id=status_id)
-        if status.tasks.exists(): 
-            messages.error(request, 'Невозможно удалить статус')
-            return redirect('statuses') 
+        status = Status.objects.get(id=status_id) 
         return render(
             request,
             'status/delete_confirmation.html',
