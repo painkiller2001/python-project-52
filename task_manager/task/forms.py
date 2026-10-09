@@ -10,7 +10,7 @@ class TaskForm(forms.ModelForm):
     label = forms.ModelMultipleChoiceField(
         queryset=Label.objects.all(),
         required=False, 
-        widget=forms.CheckboxSelectMultiple, 
+        widget=forms.SelectMultiple, 
         label='Метки'
     ) 
     class Meta:
