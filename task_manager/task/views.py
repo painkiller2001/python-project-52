@@ -16,7 +16,7 @@ class TasksView(LoginRequiredMixin, View):
         params = {
             'status_id': request.GET.get('status'),
             'performer_id': request.GET.get('performer'),
-            'label__id': request.GET.get('label')
+            'labels__id': request.GET.get('label')
         }
         params = {k: v for k, v in params.items() if v}
         filtered_tasks = tasks.filter(**params)

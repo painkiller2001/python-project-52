@@ -15,7 +15,7 @@ class TaskForm(forms.ModelForm):
     ) 
     class Meta:
         model = Task
-        fields = ['name', 'status', 'performer', 'description', 'label']
+        fields = ['name', 'status', 'performer', 'description', 'labels']
 
 
 class TaskFilterForm(forms.Form):

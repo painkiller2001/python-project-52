@@ -49,7 +49,7 @@ def test_task_filtered_view_by_label(client, user_creation, label_creation, stat
     task = task_creation
     task.labels.add(label_creation)
     task2 = Task.objects.create(name='test_task2', author=user_creation, performer=user_creation, status=status_creation)
-    task2.label.add(another_label)
+    task2.labels.add(another_label)
 
     url = f'/tasks/?status=&performer=&label={label_creation.id}&own_tasks='
 
