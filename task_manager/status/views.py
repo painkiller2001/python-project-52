@@ -7,7 +7,6 @@ from task_manager.status.forms import StatusForm
 from task_manager.status.models import Status
 
 
-# Create your views here.
 class StatusesView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
