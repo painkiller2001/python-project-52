@@ -30,15 +30,3 @@ ignore = ["RUF012"]
 dev = [
     "coverage>=7.16.2",
 ]
-
-
-[tool.coverage.run]
-omit = [
-    "*/migrations/*",
-    "*/tests/*",
-    "manage.py",
-    "main.py",
-    "task_manager/asgi.py",
-    "task_manager/wsgi.py",
-    "task_manager/settings.py",
-]
