@@ -12,9 +12,25 @@ The project is successfully deployed on Render and is ready for testing at the l
 
 **[Launch Task Manager](https://task-manager-vdvb.onrender.com/)** 🚀
 
-Core Features
-User Management: Registration, login/logout, and profile editing — users can only update or delete their own account.
-Task Management: Full CRUD for tasks, including name, description, status, assigned performer, and labels.
-Statuses & Labels: Create, update, and delete custom statuses and labels to organize tasks the way your team works.
-Smart Filtering: Filter the task list by status, performer, label, or show only tasks created by the current user.
-Data Integrity Rules: Statuses and labels linked to existing tasks cannot be deleted, and tasks can only be deleted by their original author.
+---
+
+## ✨ Core Features
+
+### 👤 User Management
+Registration, login/logout, and profile editing — users can only update or delete their own account.
+
+### ✅ Task Management
+Full CRUD for tasks, including name, description, status, assigned performer, and labels.
+
+### 🏷️ Statuses & Labels
+Create, update, and delete custom statuses and labels to organize tasks the way your team works.
+
+### 🔍 Smart Filtering
+Filter the task list by status, performer, label, or show only tasks created by the current user.
+
+### 🔒 Data Integrity Rules
+Statuses and labels linked to existing tasks cannot be deleted, and tasks can only be deleted by their original author.
+
+---
+
+<p align="center">Made with Django 🐍</p>
