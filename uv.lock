@@ -250,6 +250,7 @@ dependencies = [
     { name = "gunicorn" },
     { name = "make" },
     { name = "psycopg2-binary" },
+    { name = "pydotenv" },
     { name = "python-dotenv" },
     { name = "ruff" },
     { name = "sentry-sdk" },
@@ -270,6 +271,7 @@ requires-dist = [
     { name = "gunicorn", specifier = ">=26.0.0" },
     { name = "make", specifier = ">=0.1.6.post2" },
     { name = "psycopg2-binary", specifier = ">=2.9.12" },
+    { name = "pydotenv", specifier = ">=0.0.7" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
     { name = "ruff", specifier = ">=0.16.3" },
     { name = "sentry-sdk", specifier = ">=2.71.0" },
@@ -427,6 +429,12 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/1d/f2/10a1bcebadb6aa55e280e1f58975c36a7b560ea525184c7aa4064c466633/psycopg2_binary-2.9.12-cp314-cp314-musllinux_1_2_x86_64.whl", hash = "sha256:527e6342b3e44c2f0544f6b8e927d60de7f163f5723b8f1dfa7d2a84298738cd", size = 3351466, upload-time = "2026-04-20T23:35:43.993Z" },
     { url = "https://files.pythonhosted.org/packages/20/be/b732c8418ffa5bcfda002890f5dc4c869fc17db66ff11f53b17cfe44afc0/psycopg2_binary-2.9.12-cp314-cp314-win_amd64.whl", hash = "sha256:f12ae41fcafadb39b2785e64a40f9db05d6de2ac114077457e0e7c597f3af980", size = 2848762, upload-time = "2026-04-20T23:35:46.421Z" },
 ]
+
+[[package]]
+name = "pydotenv"
+version = "0.0.7"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0a/3a/e591d413b1258daee35900a4e1f41a887c7500ea0e9423ccbe40ae81a635/pydotenv-0.0.7.tar.gz", hash = "sha256:5f6d78d3a7ed5124d7836bc1beeadd855dab4e2fdbea9338e6ff61dc1e46829f", size = 2029, upload-time = "2017-05-15T16:07:04.182Z" }
 
 [[package]]
 name = "pygments"
