@@ -3,6 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+
 
 from task_manager.status.forms import StatusForm
 from task_manager.status.models import Status
@@ -25,35 +28,50 @@ class StatusesView(LoginRequiredMixin, ListView):
     context_object_name = 'statuses'
 
 
-class StatusCreateView(LoginRequiredMixin, View):
+# class StatusCreateView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
-        form = StatusForm()
-        return render(
-            request,
-            'status/status_create.html',
-            context={
-            'form': form
-            }
-        )
+#     def get(self, request, *args, **kwargs):
+#         form = StatusForm()
+#         return render(
+#             request,
+#             'status/status_create.html',
+#             context={
+#             'form': form
+#             }
+#         )
 
-    def post(self, request, *args, **kwargs):
-        form = StatusForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Статус успешно создан')
-            return redirect(
-                'statuses'
-            )
-        else:
-            messages.warning(request, 'уже существует')
-        return render(
-            request,
-            'status/status_create.html',
-            context={
-            'form': form
-            }
-        )
+#     def post(self, request, *args, **kwargs):
+#         form = StatusForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Статус успешно создан')
+#             return redirect(
+#                 'statuses'
+#             )
+#         else:
+#             messages.warning(request, 'уже существует')
+#         return render(
+#             request,
+#             'status/status_create.html',
+#             context={
+#             'form': form
+#             }
+#         )
+class StatusCreateView(LoginRequiredMixin, CreateView):
+
+    model = Status
+    form_class = StatusForm
+    template_name = 'status/status_create.html'
+    success_url = reverse_lazy('statuses')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Статус успешно создан')
+        return super().form_valid(form)
+
+
+    def form_invalid(self, form):
+        messages.warning(self.request, 'Стутус уже существует')
+        return super().form_invalid(form)
 
 
 class StatusUpdateView(LoginRequiredMixin, View):
