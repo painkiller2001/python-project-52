@@ -80,7 +80,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     form_class = StatusForm
     template_name = 'status/status_update.html'
     success_url = reverse_lazy('statuses')
-    id_url = 'id'
+    pk_url_kwarg = 'id'
 
     def form_valid(self, form):
         messages.success(self.request, 'Статус успешно изменен')
@@ -120,27 +120,46 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
 #         )   
 
 
-class StatusDeleteView(LoginRequiredMixin, View):
+class StatusDeleteView(LoginRequiredMixin, DeleteView):
 
-    def get(self, request, *args, **kwargs):
-        status_id = kwargs.get('id')
-        status = Status.objects.get(id=status_id) 
-        return render(
-            request,
-            'status/delete_confirmation.html',
-            context={
-                'status': status
-            }
-        )
+    model = Status
+    template_name = 'status/delete_confirmation.html'
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('statuses')
 
-    def post(self, request, *args, **kwargs):
-        status_id = kwargs.get('id')
-        status = get_object_or_404(Status.objects.all(), id=status_id)
+    def form_valid(self, form):
+        if self.object.tasks.exists():
+            messages.error(self.request, 'Невозможно удалить статус')
+            return redirect(self.success_url)
+        messages.success(self.request, 'Статус успешно удален')
+        return super().form_valid(form)
 
-        if status.tasks.exists(): 
-            messages.error(request, 'Невозможно удалить статус')
-            return redirect('statuses') 
-        else:
-            status.delete()
-            messages.success(request, 'Статус успешно удален')
-            return redirect('statuses')
+
+
+
+
+
+# class StatusDeleteView(LoginRequiredMixin, View):
+
+#     def get(self, request, *args, **kwargs):
+#         status_id = kwargs.get('id')
+#         status = Status.objects.get(id=status_id) 
+#         return render(
+#             request,
+#             'status/delete_confirmation.html',
+#             context={
+#                 'status': status
+#             }
+#         )
+
+#     def post(self, request, *args, **kwargs):
+#         status_id = kwargs.get('id')
+#         status = get_object_or_404(Status.objects.all(), id=status_id)
+
+#         if status.tasks.exists(): 
+#             messages.error(request, 'Невозможно удалить статус')
+#             return redirect('statuses') 
+#         else:
+#             status.delete()
+#             messages.success(request, 'Статус успешно удален')
+#             return redirect('statuses')
