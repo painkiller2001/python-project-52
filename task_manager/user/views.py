@@ -4,6 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from task_manager.user.forms import UserForm
 from task_manager.user.models import User
@@ -29,31 +31,70 @@ class UsersView(ListView):
     context_object_name = 'users'
 
 
-class UserCreateView(View):
-    
-    def get(self, request, *args, **kwargs):
-        form = UserForm()
-        return render(
-            request,
-            "user/user_create.html",
-            context={
-                'form': form
-            }
-        )
+class UserCreateView(CreateView):
 
-    def post(self, request, *args, **kwargs):
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Пользователь успешно зарегистрирован')
-            return redirect('login')
-        return render(
-            request,
-            "user/user_create.html",
-            context={
-                'form': form
-            }
-        )
+    model = User
+    form_class = UserForm
+    template_name = 'user/user_create.html'
+    success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Пользователь успешно зарегистрирован')
+        return super().form_valid(form)
+
+
+class StatusUpdateView(LoginRequiredMixin, UpdateView):
+    
+    model = User
+    form_class = UserForm
+    template_name = 'user/user_update.html'
+    success_url = reverse_lazy('users')
+    pk_url_kwarg = 'id'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Пользователь успешно изменен')
+        return super().form_valid(form)
+
+
+# class StatusDeleteView(LoginRequiredMixin, DeleteView):
+
+#     model = Status
+#     template_name = 'status/delete_confirmation.html'
+#     pk_url_kwarg = 'id'
+#     success_url = reverse_lazy('statuses')
+
+#     def form_valid(self, form):
+#         if self.object.tasks.exists():
+#             messages.error(self.request, 'Невозможно удалить статус')
+#             return redirect(self.success_url)
+#         messages.success(self.request, 'Статус успешно удален')
+#         return super().form_valid(form)
+
+# class UserCreateView(View):
+    
+#     def get(self, request, *args, **kwargs):
+#         form = UserForm()
+#         return render(
+#             request,
+#             "user/user_create.html",
+#             context={
+#                 'form': form
+#             }
+#         )
+
+#     def post(self, request, *args, **kwargs):
+#         form = UserForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Пользователь успешно зарегистрирован')
+#             return redirect('login')
+#         return render(
+#             request,
+#             "user/user_create.html",
+#             context={
+#                 'form': form
+#             }
+#         )
 
     
 class CustomLoginView(View):

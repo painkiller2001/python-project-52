@@ -10,6 +10,7 @@ from task_manager.status.models import Status
 
 
 class StatusesView(LoginRequiredMixin, ListView):
+    
     model = Status
     template_name = 'status/statuses.html'
     context_object_name = 'statuses'
