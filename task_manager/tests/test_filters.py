@@ -29,7 +29,7 @@ def test_task_filtered_view_by_performer(client, user_creation, status_creation)
     another_performer = User.objects.create_user(username='Another_Performer', password='12345qqQ!')
 
     task = Task.objects.create(name='test_task2', author=user_creation, performer=user_creation, status=status_creation)
-    task2 = Task.objects.create(name='test_task2', author=user_creation, performer=another_performer, status=status_creation)
+    task2 = Task.objects.create(name='test_task3', author=user_creation, performer=another_performer, status=status_creation)
 
     url = f'/tasks/?status=&performer={user_creation.id}&label=&own_tasks='
 

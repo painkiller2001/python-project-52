@@ -2,23 +2,28 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
+from django.views.generic import ListView
 
 from task_manager.label.forms import LabelForm
 from task_manager.label.models import Label
 
 
 # Create your views here.
-class LabelsView(LoginRequiredMixin, View):
+# class LabelsView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
-        labels = Label.objects.all()
-        return render(
-            request,
-            "label/labels.html",
-            context={
-                'labels': labels
-            }
-        )
+#     def get(self, request, *args, **kwargs):
+#         labels = Label.objects.all()
+#         return render(
+#             request,
+#             "label/labels.html",
+#             context={
+#                 'labels': labels
+#             }
+#         )
+class LabelsView(LoginRequiredMixin, ListView):
+    model = Label
+    template_name = 'label/labels.html'
+    context_object_name = 'labels'
 
 
 class LabelCreateView(LoginRequiredMixin, View):

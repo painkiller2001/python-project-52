@@ -2,22 +2,27 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
+from django.views.generic import ListView
 
 from task_manager.status.forms import StatusForm
 from task_manager.status.models import Status
 
 
-class StatusesView(LoginRequiredMixin, View):
+# class StatusesView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
-        statuses = Status.objects.all()
-        return render(
-            request,
-            "status/statuses.html",
-            context={
-                'statuses': statuses
-            }
-        )
+#     def get(self, request, *args, **kwargs):
+#         statuses = Status.objects.all()
+#         return render(
+#             request,
+#             "status/statuses.html",
+#             context={
+#                 'statuses': statuses
+#             }
+#         )
+class StatusesView(LoginRequiredMixin, ListView):
+    model = Status
+    template_name = 'status/statuses.html'
+    context_object_name = 'statuses'
 
 
 class StatusCreateView(LoginRequiredMixin, View):

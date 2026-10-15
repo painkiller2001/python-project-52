@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import View
+from django.views.generic import ListView
 
 from task_manager.user.forms import UserForm
 from task_manager.user.models import User
@@ -10,18 +11,23 @@ from task_manager.user.models import User
 # Create your views here.
 
 
-class UsersView(View):
+# class UsersView(View):
     
-    def get(self, request, *args, **kwargs):
-        users = User.objects.all()
-        return render(
-            request,
-            "user/users.html",
-            context={
-                "users": users
-            }
-        )
-        
+#     def get(self, request, *args, **kwargs):
+#         users = User.objects.all()
+#         return render(
+#             request,
+#             "user/users.html",
+#             context={
+#                 "users": users
+#             }
+#         )
+class UsersView(ListView):
+
+    model = User
+    template_name = 'user/users.html'
+    context_object_name = 'users'
+
 
 class UserCreateView(View):
     
