@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
@@ -74,39 +74,50 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class StatusUpdateView(LoginRequiredMixin, View):
+class StatusUpdateView(LoginRequiredMixin, UpdateView):
+    
+    model = Status
+    form_class = StatusForm
+    template_name = 'status/status_update.html'
+    success_url = reverse_lazy('statuses')
+    id_url = 'id'
 
-    def get(self, request, *args, **kwargs):
-        status_id = kwargs.get('id')
-        status = Status.objects.get(id=status_id)
-        form = StatusForm(instance=status)
-        return render(
-            request,
-            'status/status_update.html',
-            context={
-                'status': status,
-                'form': form 
-            }
-        )
+    def form_valid(self, form):
+        messages.success(self.request, 'Статус успешно изменен')
+        return super().form_valid(form)
+# class StatusUpdateView(LoginRequiredMixin, View):
 
-    def post(self, request, *args, **kwargs):
-        status_id = kwargs.get('id')
-        status = Status.objects.get(id=status_id)
-        form = StatusForm(request.POST, instance=status)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Статус успешно изменен')
-            return redirect(
-                'statuses'
-            )
-        return render(
-            request,
-            'status/status_update.html',
-            context={
-                'status': status,
-                'form': form
-            }
-        )   
+#     def get(self, request, *args, **kwargs):
+#         status_id = kwargs.get('id')
+#         status = Status.objects.get(id=status_id)
+#         form = StatusForm(instance=status)
+#         return render(
+#             request,
+#             'status/status_update.html',
+#             context={
+#                 'status': status,
+#                 'form': form 
+#             }
+#         )
+
+#     def post(self, request, *args, **kwargs):
+#         status_id = kwargs.get('id')
+#         status = Status.objects.get(id=status_id)
+#         form = StatusForm(request.POST, instance=status)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Статус успешно изменен')
+#             return redirect(
+#                 'statuses'
+#             )
+#         return render(
+#             request,
+#             'status/status_update.html',
+#             context={
+#                 'status': status,
+#                 'form': form
+#             }
+#         )   
 
 
 class StatusDeleteView(LoginRequiredMixin, View):
