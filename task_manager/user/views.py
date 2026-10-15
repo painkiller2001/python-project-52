@@ -43,13 +43,25 @@ class UserCreateView(CreateView):
         return super().form_valid(form)
 
 
-class StatusUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     
     model = User
     form_class = UserForm
     template_name = 'user/user_update.html'
     success_url = reverse_lazy('users')
     pk_url_kwarg = 'id'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        user_id = kwargs.get('id')
+        current_user_id = request.user.id
+        if current_user_id != user_id:
+            messages.error(request, 'У вас нет прав для изменения')
+            return redirect('users')
+
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         messages.success(self.request, 'Пользователь успешно изменен')
@@ -133,43 +145,43 @@ class CustomLogoutView(LoginRequiredMixin, View):
         return redirect('index')
 
 
-class UserUpdateView(LoginRequiredMixin, View):
+# class UserUpdateView(LoginRequiredMixin, View):
     
-    def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = User.objects.get(id=user_id)
-        current_user_id = request.user.id
+#     def get(self, request, *args, **kwargs):
+#         user_id = kwargs.get('id')
+#         user = User.objects.get(id=user_id)
+#         current_user_id = request.user.id
 
-        if current_user_id == user_id:
-            form = UserForm(instance=user)
-            return render(
-                request,
-                "user/user_update.html",
-                context={
-                    'form': form,
-                    'user': user
-                }
-            )
-        else:
-            messages.error(request, 'У вас нет прав для изменения')
-            return redirect('users')
+#         if current_user_id == user_id:
+#             form = UserForm(instance=user)
+#             return render(
+#                 request,
+#                 "user/user_update.html",
+#                 context={
+#                     'form': form,
+#                     'user': user
+#                 }
+#             )
+#         else:
+#             messages.error(request, 'У вас нет прав для изменения')
+#             return redirect('users')
 
-    def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = User.objects.get(id=user_id)
-        form = UserForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Пользователь успешно изменен')
-            return redirect('users')
-        return render(
-            request,
-            "user/user_update.html",
-            context={
-                'form': form,
-                'user': user
-            }
-        )
+#     def post(self, request, *args, **kwargs):
+#         user_id = kwargs.get('id')
+#         user = User.objects.get(id=user_id)
+#         form = UserForm(request.POST, instance=user)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Пользователь успешно изменен')
+#             return redirect('users')
+#         return render(
+#             request,
+#             "user/user_update.html",
+#             context={
+#                 'form': form,
+#                 'user': user
+#             }
+#         )
 
 
 class UserDeleteView(LoginRequiredMixin, View):
