@@ -68,20 +68,6 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-# class StatusDeleteView(LoginRequiredMixin, DeleteView):
-
-#     model = Status
-#     template_name = 'status/delete_confirmation.html'
-#     pk_url_kwarg = 'id'
-#     success_url = reverse_lazy('statuses')
-
-#     def form_valid(self, form):
-#         if self.object.tasks.exists():
-#             messages.error(self.request, 'Невозможно удалить статус')
-#             return redirect(self.success_url)
-#         messages.success(self.request, 'Статус успешно удален')
-#         return super().form_valid(form)
-
 # class UserCreateView(View):
     
 #     def get(self, request, *args, **kwargs):
@@ -184,32 +170,59 @@ class CustomLogoutView(LoginRequiredMixin, View):
 #         )
 
 
-class UserDeleteView(LoginRequiredMixin, View):
+# class UserDeleteView(LoginRequiredMixin, View):
     
-    def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = User.objects.get(id=user_id)
-        current_user_id = request.user.id
+#     def get(self, request, *args, **kwargs):
+#         user_id = kwargs.get('id')
+#         user = User.objects.get(id=user_id)
+#         current_user_id = request.user.id
 
-        if current_user_id == user_id:
-            return render(
-                request,
-                "user/delete_confirmation.html",
-                context={
-                    'user': user
-                }
-            )
-        else:
+#         if current_user_id == user_id:
+#             return render(
+#                 request,
+#                 "user/delete_confirmation.html",
+#                 context={
+#                     'user': user
+#                 }
+#             )
+#         else:
+#             messages.error(request, 'У вас нет прав для изменения')
+#             return redirect('users')
+
+#     def post(self, request, *args, **kwargs):
+#         user_id = kwargs.get('id')
+#         user = User.objects.get(id=user_id)
+#         if user.created_tasks.exists() or user.assigned_tasks.exists(): 
+#             messages.error(request, 'Невозможно удалить пользователя')
+#             return redirect('users')
+#         else:
+#             user.delete()
+#             messages.success(request, 'Пользователь успешно удален')
+#             return redirect('users')
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+
+    model = User
+    template_name = 'user/delete_confirmation.html'
+    pk_url_kwarg = 'id'
+    success_url = reverse_lazy('users')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        user_id = kwargs.get('id')
+        current_user_id = request.user.id
+        if current_user_id != user_id:
             messages.error(request, 'У вас нет прав для изменения')
             return redirect('users')
 
-    def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('id')
-        user = User.objects.get(id=user_id)
-        if user.created_tasks.exists() or user.assigned_tasks.exists(): 
-            messages.error(request, 'Невозможно удалить пользователя')
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        if self.object.created_tasks.exists() or self.object.assigned_tasks.exists():
+            messages.error(self.request, 'Невозможно удалить пользователя')
             return redirect('users')
-        else:
-            user.delete()
-            messages.success(request, 'Пользователь успешно удален')
-            return redirect('users')
+        messages.success(self.request, 'Пользователь успешно удален')
+        return super().form_valid(form)
