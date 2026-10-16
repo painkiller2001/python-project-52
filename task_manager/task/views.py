@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from task_manager.task.forms import TaskFilterForm, TaskForm
 from task_manager.task.models import Task
@@ -52,38 +54,56 @@ class TaskDetailView(LoginRequiredMixin, View):
         )
 
 
-class TaskCreateView(LoginRequiredMixin, View): 
+# class TaskCreateView(LoginRequiredMixin, View): 
 
-    def get(self, request, *args, **kwargs):
-        form = TaskForm()
-        return render(
-            request,
-            'task/task_create.html',
-            context={
-                'form': form
-            }
-        )
+#     def get(self, request, *args, **kwargs):
+#         form = TaskForm()
+#         return render(
+#             request,
+#             'task/task_create.html',
+#             context={
+#                 'form': form
+#             }
+#         )
 
-    def post(self, request, *args, **kwargs):
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.author = request.user
-            form.save()
-            messages.success(request, 'Задача успешно создана')
-            return redirect(
-                'tasks'
-            )
-        else:
-            messages.warning(request, 'Задача уже существует')
-        return render(
-            request,
-            'task/task_create.html',
-            context={
-                'form': form
-            }
-        )          
+#     def post(self, request, *args, **kwargs):
+#         form = TaskForm(request.POST)
+#         if form.is_valid():
+#             task = form.save(commit=False)
+#             task.author = request.user
+#             form.save()
+#             messages.success(request, 'Задача успешно создана')
+#             return redirect(
+#                 'tasks'
+#             )
+#         else:
+#             messages.warning(request, 'Задача уже существует')
+#         return render(
+#             request,
+#             'task/task_create.html',
+#             context={
+#                 'form': form
+#             }
+#         )          
     
+
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    
+    model = Task
+    template_name = 'task/task_create.html'
+    form_class = TaskForm
+    success_url = reverse_lazy('tasks')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        messages.success(self.request, 'Задача успешно создана')
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.warning(self.request, 'Задача уже существует')
+        return super().form_invalid(form)
+
 
 class TaskUpdateView(LoginRequiredMixin, View):
 
