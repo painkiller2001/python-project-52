@@ -1,18 +1,28 @@
-*.pyc
-
 *.egg-info/
 
+*.py[cod]
+
 .vscode/
+
+.venv/
 
 dist/
 
 build/
 
-.venv/
-
 coverage.xml
 
+.coverage
+
 .env
+
+db.sqlite3
+
+*.sqlite3
+
+staticfiles/
+
+__pycache__/
 
 key_github
 
