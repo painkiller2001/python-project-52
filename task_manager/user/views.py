@@ -2,10 +2,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from task_manager.user.forms import UserForm
 from task_manager.user.models import User

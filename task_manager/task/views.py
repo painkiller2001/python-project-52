@@ -1,43 +1,74 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views import View
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from task_manager.task.forms import TaskFilterForm, TaskForm
 from task_manager.task.models import Task
 
 
 # Create your views here.
-class TasksView(LoginRequiredMixin, View):
+class TasksView(LoginRequiredMixin, ListView):
 
-    def get(self, request, *args, **kwargs):
-        tasks = Task.objects.all()
-        form = TaskFilterForm(request.GET)
+    model = Task
+    template_name = 'task/tasks.html'
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+        tasks = super().get_queryset()
         params = {
-            'status_id': request.GET.get('status'),
-            'performer_id': request.GET.get('performer'),
-            'labels__id': request.GET.get('label')
+            'status_id': self.request.GET.get('status'),
+            'performer_id': self.request.GET.get('performer'),
+            'labels__id': self.request.GET.get('label')
         }
         params = {k: v for k, v in params.items() if v}
         filtered_tasks = tasks.filter(**params)
 
-        flag = request.GET.get('own_tasks')
+        flag = self.request.GET.get('own_tasks')
         if flag:
-            own_filtered_tasks = filtered_tasks.filter(author=request.user)
+            own_filtered_tasks = filtered_tasks.filter(author=self.request.user)
         else:
             own_filtered_tasks = filtered_tasks
+        return own_filtered_tasks
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TaskFilterForm(self.request.GET)
+        return context
+
+
+
+# class TasksView(LoginRequiredMixin, View):
+
+#     def get(self, request, *args, **kwargs):
+#         tasks = Task.objects.all()
+#         form = TaskFilterForm(request.GET)
+#         params = {
+#             'status_id': request.GET.get('status'),
+#             'performer_id': request.GET.get('performer'),
+#             'labels__id': request.GET.get('label')
+#         }
+#         params = {k: v for k, v in params.items() if v}
+#         filtered_tasks = tasks.filter(**params)
+
+#         flag = request.GET.get('own_tasks')
+#         if flag:
+#             own_filtered_tasks = filtered_tasks.filter(author=request.user)
+#         else:
+#             own_filtered_tasks = filtered_tasks
 
         
-        return render(
-            request,
-            'task/tasks.html',
-            context={
-                'tasks': own_filtered_tasks,
-                'form': form
-            }
-        )
+#         return render(
+#             request,
+#             'task/tasks.html',
+#             context={
+#                 'tasks': own_filtered_tasks,
+#                 'form': form
+#             }
+#         )
 
 # class TaskDetailView(LoginRequiredMixin, View):
 
