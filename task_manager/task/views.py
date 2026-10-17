@@ -154,33 +154,57 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class TaskDeleteView(LoginRequiredMixin, View):
+# class TaskDeleteView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
+#     def get(self, request, *args, **kwargs):
+#         task_id = kwargs.get('id')
+#         task = Task.objects.get(id=task_id)
+#         current_user_id = request.user.id
+#         if current_user_id != task.author.id:
+#             messages.error(request, 'Задачу может удалить только ее автор')
+#             return redirect('tasks')
+
+#         return render (
+#                 request,
+#                 'task/delete_confirmation.html',
+#                 context={
+#                     'task': task
+#                 }
+#             )
+
+
+#     def post(self, request, *args, **kwargs):
+#         task_id = kwargs.get('id') 
+#         task = Task.objects.get(id=task_id)
+#         current_user_id = request.user.id
+#         if current_user_id != task.author.id:
+#             messages.error(request, 'Задачу может удалить только ее автор')
+#             return redirect('tasks')
+#         else:
+#             task.delete()
+#             messages.success(request, 'Задача успешно удалена')
+#             return redirect('tasks')
+
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+
+    model = Task
+    template_name = 'task/delete_confirmation.html'
+    success_url = reverse_lazy('tasks')
+    pk_url_kwarg = 'id'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('login')
+        
         task_id = kwargs.get('id')
         task = Task.objects.get(id=task_id)
         current_user_id = request.user.id
         if current_user_id != task.author.id:
             messages.error(request, 'Задачу может удалить только ее автор')
             return redirect('tasks')
+        return super().dispatch(request, *args, **kwargs)
 
-        return render (
-                request,
-                'task/delete_confirmation.html',
-                context={
-                    'task': task
-                }
-            )
-
-
-    def post(self, request, *args, **kwargs):
-        task_id = kwargs.get('id') 
-        task = Task.objects.get(id=task_id)
-        current_user_id = request.user.id
-        if current_user_id != task.author.id:
-            messages.error(request, 'Задачу может удалить только ее автор')
-            return redirect('tasks')
-        else:
-            task.delete()
-            messages.success(request, 'Задача успешно удалена')
-            return redirect('tasks')
+    def form_valid(self, form):
+        messages.success(self.request, 'Задача успешно удалена')
+        return super().form_valid(form)
