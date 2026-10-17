@@ -105,41 +105,54 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class TaskUpdateView(LoginRequiredMixin, View):
+# class TaskUpdateView(LoginRequiredMixin, View):
 
-    def get(self, request, *args, **kwargs):
-        task_id = kwargs.get('id') 
-        task = Task.objects.get(id=task_id)
-        form = TaskForm(instance=task)
+#     def get(self, request, *args, **kwargs):
+#         task_id = kwargs.get('id') 
+#         task = Task.objects.get(id=task_id)
+#         form = TaskForm(instance=task)
 
-        return render(
-            request,
-            'task/task_update.html',
-            context={
-                'task': task,
-                'form': form
-            }
-        )
+#         return render(
+#             request,
+#             'task/task_update.html',
+#             context={
+#                 'task': task,
+#                 'form': form
+#             }
+#         )
 
-    def post(self, request, *args, **kwargs):
-        task_id = kwargs.get('id') 
-        task = Task.objects.get(id=task_id)
-        form = TaskForm(request.POST, instance=task)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Задача успешно изменена')
-            return redirect(
-                'tasks'
-            )
-        return render (
-            request,
-            'task/task_update.html',
-            context={
-                'task': task,
-                'form': form
-            }
-        )
-    
+#     def post(self, request, *args, **kwargs):
+#         task_id = kwargs.get('id') 
+#         task = Task.objects.get(id=task_id)
+#         form = TaskForm(request.POST, instance=task)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Задача успешно изменена')
+#             return redirect(
+#                 'tasks'
+#             )
+#         return render (
+#             request,
+#             'task/task_update.html',
+#             context={
+#                 'task': task,
+#                 'form': form
+#             }
+#         )
+
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+
+    model = Task
+    form_class = TaskForm
+    template_name = 'task/task_update.html'
+    success_url = reverse_lazy('tasks')
+    pk_url_kwarg = 'id'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Задача успешно изменена')
+        return super().form_valid(form)
+
 
 class TaskDeleteView(LoginRequiredMixin, View):
 
