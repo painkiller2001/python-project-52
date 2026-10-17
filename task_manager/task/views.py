@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 
 from task_manager.task.forms import TaskFilterForm, TaskForm
@@ -39,19 +39,26 @@ class TasksView(LoginRequiredMixin, View):
             }
         )
 
+# class TaskDetailView(LoginRequiredMixin, View):
 
-class TaskDetailView(LoginRequiredMixin, View):
+#     def get(self, request, *args, **kwargs):
+#         task_id = kwargs.get('id')
+#         task = get_object_or_404(Task, id=task_id)
+#         return render(
+#             request,
+#             'task/task_detail.html',
+#             context={
+#                 'task': task
+#             }
+#         )
 
-    def get(self, request, *args, **kwargs):
-        task_id = kwargs.get('id')
-        task = get_object_or_404(Task, id=task_id)
-        return render(
-            request,
-            'task/task_detail.html',
-            context={
-                'task': task
-            }
-        )
+class TaskDetailView(LoginRequiredMixin, DetailView):
+
+    model = Task
+    template_name = 'task/task_detail.html'
+    pk_url_kwarg = 'id'
+    context_object_name = 'task'
+
 
 
 # class TaskCreateView(LoginRequiredMixin, View): 
