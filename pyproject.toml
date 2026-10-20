@@ -25,6 +25,7 @@ python_files = ["test_*.py", "*_test.py"]
 
 [tool.ruff.lint]
 ignore = ["RUF012"]
+extend-select = ["ERA001"]
 
 [dependency-groups]
 dev = [

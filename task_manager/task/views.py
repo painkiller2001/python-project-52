@@ -40,90 +40,12 @@ class TasksView(LoginRequiredMixin, ListView):
         return context
 
 
-
-# class TasksView(LoginRequiredMixin, View):
-
-#     def get(self, request, *args, **kwargs):
-#         tasks = Task.objects.all()
-#         form = TaskFilterForm(request.GET)
-#         params = {
-#             'status_id': request.GET.get('status'),
-#             'performer_id': request.GET.get('performer'),
-#             'labels__id': request.GET.get('label')
-#         }
-#         params = {k: v for k, v in params.items() if v}
-#         filtered_tasks = tasks.filter(**params)
-
-#         flag = request.GET.get('own_tasks')
-#         if flag:
-#             own_filtered_tasks = filtered_tasks.filter(author=request.user)
-#         else:
-#             own_filtered_tasks = filtered_tasks
-
-        
-#         return render(
-#             request,
-#             'task/tasks.html',
-#             context={
-#                 'tasks': own_filtered_tasks,
-#                 'form': form
-#             }
-#         )
-
-# class TaskDetailView(LoginRequiredMixin, View):
-
-#     def get(self, request, *args, **kwargs):
-#         task_id = kwargs.get('id')
-#         task = get_object_or_404(Task, id=task_id)
-#         return render(
-#             request,
-#             'task/task_detail.html',
-#             context={
-#                 'task': task
-#             }
-#         )
-
 class TaskDetailView(LoginRequiredMixin, DetailView):
 
     model = Task
     template_name = 'task/task_detail.html'
     pk_url_kwarg = 'id'
     context_object_name = 'task'
-
-
-
-# class TaskCreateView(LoginRequiredMixin, View): 
-
-#     def get(self, request, *args, **kwargs):
-#         form = TaskForm()
-#         return render(
-#             request,
-#             'task/task_create.html',
-#             context={
-#                 'form': form
-#             }
-#         )
-
-#     def post(self, request, *args, **kwargs):
-#         form = TaskForm(request.POST)
-#         if form.is_valid():
-#             task = form.save(commit=False)
-#             task.author = request.user
-#             form.save()
-#             messages.success(request, 'Задача успешно создана')
-#             return redirect(
-#                 'tasks'
-#             )
-#         else:
-#             messages.warning(request, 'Задача уже существует')
-#         return render(
-#             request,
-#             'task/task_create.html',
-#             context={
-#                 'form': form
-#             }
-#         )          
-    
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -143,42 +65,6 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-# class TaskUpdateView(LoginRequiredMixin, View):
-
-#     def get(self, request, *args, **kwargs):
-#         task_id = kwargs.get('id') 
-#         task = Task.objects.get(id=task_id)
-#         form = TaskForm(instance=task)
-
-#         return render(
-#             request,
-#             'task/task_update.html',
-#             context={
-#                 'task': task,
-#                 'form': form
-#             }
-#         )
-
-#     def post(self, request, *args, **kwargs):
-#         task_id = kwargs.get('id') 
-#         task = Task.objects.get(id=task_id)
-#         form = TaskForm(request.POST, instance=task)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Задача успешно изменена')
-#             return redirect(
-#                 'tasks'
-#             )
-#         return render (
-#             request,
-#             'task/task_update.html',
-#             context={
-#                 'task': task,
-#                 'form': form
-#             }
-#         )
-
-
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Task
@@ -190,38 +76,6 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, 'Задача успешно изменена')
         return super().form_valid(form)
-
-
-# class TaskDeleteView(LoginRequiredMixin, View):
-
-#     def get(self, request, *args, **kwargs):
-#         task_id = kwargs.get('id')
-#         task = Task.objects.get(id=task_id)
-#         current_user_id = request.user.id
-#         if current_user_id != task.author.id:
-#             messages.error(request, 'Задачу может удалить только ее автор')
-#             return redirect('tasks')
-
-#         return render (
-#                 request,
-#                 'task/delete_confirmation.html',
-#                 context={
-#                     'task': task
-#                 }
-#             )
-
-
-#     def post(self, request, *args, **kwargs):
-#         task_id = kwargs.get('id') 
-#         task = Task.objects.get(id=task_id)
-#         current_user_id = request.user.id
-#         if current_user_id != task.author.id:
-#             messages.error(request, 'Задачу может удалить только ее автор')
-#             return redirect('tasks')
-#         else:
-#             task.delete()
-#             messages.success(request, 'Задача успешно удалена')
-#             return redirect('tasks')
 
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
